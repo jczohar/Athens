@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>מדריך אתונה</title>
+<meta name="theme-color" content="#0d47a1">
+<link rel="manifest" href="manifest.json">
+<link rel="icon" href="icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="icon-192.png">
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header class="top">
+  <div class="brand"><svg viewBox="0 0 64 64" aria-hidden="true"><circle cx="32" cy="32" r="30" fill="#0a2f73" stroke="#f5c542" stroke-width="3"/><path d="M10 28 L32 13 L54 28 Z" fill="#f5c542"/><rect x="12" y="30" width="40" height="3.5" fill="#f5c542"/><g fill="#fff3b0"><rect x="15" y="35" width="4" height="14"/><rect x="23" y="35" width="4" height="14"/><rect x="30" y="35" width="4" height="14"/><rect x="37" y="35" width="4" height="14"/><rect x="45" y="35" width="4" height="14"/></g><rect x="11" y="50" width="42" height="4" fill="#f5c542"/></svg>אתונה</div>
+  <div class="credit">יוצר: <span class="gold">יעקב זוהר</span></div>
+  <button class="iconbtn" id="refresh" title="ריענון מידע">🔄</button>
+</header>
+<nav class="tabs" id="tabs"></nav>
+<main id="view"></main>
+<footer>יוצר: <span class="gold">יעקב זוהר</span> · גרסה <span id="ver"></span><br><small>שעות, מחירים ושינויים — אמתו תמיד באתר הרשמי של המקום.</small></footer>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script src="data.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
