@@ -1,17 +1,36 @@
 {
-  "name": "מדריך אתונה — יוצר: יעקב זוהר",
+  "name": "מדריך אתונה המקיף",
   "short_name": "אתונה",
-  "lang": "he",
-  "dir": "rtl",
+  "description": "מדריך תיירות מקיף לאתונה — אתרים, מלונות, תחבורה, מסעדות, מסלולים ומזג אוויר. לכל העונות.",
   "start_url": "./index.html",
-  "scope": "./",
   "display": "standalone",
-  "orientation": "portrait",
+  "orientation": "portrait-primary",
   "background_color": "#0d47a1",
   "theme_color": "#0d47a1",
+  "lang": "he",
+  "dir": "rtl",
+  "scope": "./",
   "icons": [
-    { "src": "icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
-    { "src": "icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
-    { "src": "icon-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
-  ]
+    {
+      "src": "icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ],
+  "categories": ["travel", "navigation", "lifestyle"],
+  "screenshots": [],
+  "prefer_related_applications": false
 }
