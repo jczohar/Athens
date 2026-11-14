@@ -1,80 +1,41 @@
-/* Service Worker — מדריך אתונה PWA */
-const CACHE_NAME = "athens-guide-v20261113-02";
-const OFFLINE_URLS = [
+/* Athens Guide PWA Service Worker – offline shell */
+const CACHE = "athens-guide-v20261114-01";
+const ASSETS = [
   "./",
   "./index.html",
-  "./manifest.json",
-  "./icon-192.png",
-  "./icon-512.png"
+  "./manifest.webmanifest",
+  "./icons/icon-192.png",
+  "./icons/icon-512.png",
+  "https://unpkg.com/leaflet@1.9.4/dist/leaflet.css",
+  "https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
 ];
 
-// Install — cache core assets
-self.addEventListener("install", (event) => {
-  event.waitUntil(
-    caches.open(CACHE_NAME).then((cache) => {
-      return cache.addAll(OFFLINE_URLS).catch((err) => {
-        console.warn("Some assets failed to cache:", err);
-      });
-    }).then(() => self.skipWaiting())
+self.addEventListener("install", e => {
+  e.waitUntil(caches.open(CACHE).then(c => c.addAll(ASSETS).catch(() => {})).then(() => self.skipWaiting()));
+});
+
+self.addEventListener("activate", e => {
+  e.waitUntil(
+    caches.keys().then(keys => Promise.all(keys.filter(k => k !== CACHE).map(k => caches.delete(k))))
+      .then(() => self.clients.claim())
   );
 });
 
-// Activate — clean old caches
-self.addEventListener("activate", (event) => {
-  event.waitUntil(
-    caches.keys().then((keys) => {
-      return Promise.all(
-        keys.filter((k) => k !== CACHE_NAME).map((k) => caches.delete(k))
-      );
-    }).then(() => self.clients.claim())
-  );
-});
-
-// Fetch strategy: Network first for HTML, Cache first for static, fallback to cache
-self.addEventListener("fetch", (event) => {
-  const req = event.request;
-  const url = new URL(req.url);
-
-  // Only handle same-origin GET
-  if (req.method !== "GET" || url.origin !== self.location.origin) {
+self.addEventListener("fetch", e => {
+  const url = new URL(e.request.url);
+  // Network-first for weather & wiki APIs
+  if (url.hostname.includes("open-meteo") || url.hostname.includes("wikipedia") || url.hostname.includes("wikimedia")) {
+    e.respondWith(fetch(e.request).catch(() => caches.match(e.request)));
     return;
   }
-
-  // For navigation / HTML — network first, fallback to cache
-  if (req.mode === "navigate" || req.destination === "document" || url.pathname.endsWith(".html") || url.pathname === "/" || url.pathname.endsWith("/")) {
-    event.respondWith(
-      fetch(req)
-        .then((res) => {
-          const copy = res.clone();
-          caches.open(CACHE_NAME).then((cache) => cache.put(req, copy));
-          return res;
-        })
-        .catch(() => caches.match("./index.html").then((r) => r || caches.match(req)))
-    );
-    return;
-  }
-
-  // For other assets — cache first, then network
-  event.respondWith(
-    caches.match(req).then((cached) => {
-      if (cached) return cached;
-      return fetch(req).then((res) => {
-        if (res && res.status === 200 && res.type === "basic") {
-          const copy = res.clone();
-          caches.open(CACHE_NAME).then((cache) => cache.put(req, copy));
-        }
-        return res;
-      }).catch(() => {
-        // Optional: return a fallback image or nothing
-        return new Response("", { status: 408, statusText: "Offline" });
-      });
-    })
+  // Cache-first for app shell
+  e.respondWith(
+    caches.match(e.request).then(r => r || fetch(e.request).then(res => {
+      if (e.request.method === "GET" && res.ok && url.origin === location.origin) {
+        const clone = res.clone();
+        caches.open(CACHE).then(c => c.put(e.request, clone));
+      }
+      return res;
+    }).catch(() => caches.match("./index.html")))
   );
-});
-
-// Optional: listen for messages (e.g. skip waiting)
-self.addEventListener("message", (event) => {
-  if (event.data && event.data.type === "SKIP_WAITING") {
-    self.skipWaiting();
-  }
 });

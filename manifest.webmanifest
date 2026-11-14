@@ -1,0 +1,28 @@
+{
+  "name": "אתונה – מידע למטייל",
+  "short_name": "אתונה",
+  "description": "מדריך אתונה המקיף לתייר – אתרים, מלונות, תחבורה, מסעדות, מסלולים ומזג אוויר. יוצר: יעקב זוהר",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "background_color": "#0d47a1",
+  "theme_color": "#0d47a1",
+  "lang": "he",
+  "dir": "rtl",
+  "icons": [
+    {
+      "src": "icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "categories": ["travel", "navigation", "lifestyle"],
+  "screenshots": []
+}
