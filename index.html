@@ -701,13 +701,36 @@ function renderMap(el) {
     if (!navigator.geolocation) return toast("המכשיר אינו תומך במיקום");
     navigator.geolocation.getCurrentPosition(p => { const ll = [p.coords.latitude, p.coords.longitude]; L.circleMarker(ll, { radius: 9, color: "#fff", weight: 3, fillColor: "#1e88e5", fillOpacity: 1 }).addTo(MAP).bindPopup("אתם כאן").openPopup(); MAP.setView(ll, 15); }, () => toast("לא ניתן לקבל מיקום — אשרו הרשאה במכשיר"));
   });
-  // Fullscreen
+  // Fullscreen – exit button floats on the map so it stays visible
   const fsBtn = $("#mapfsbtn");
   if (fsBtn) fsBtn.onclick = () => {
     const m = $("#map");
-    if (m.classList.contains("mapfs")) { m.classList.remove("mapfs"); fsBtn.textContent = "⛶ מסך מלא"; document.body.style.overflow = ""; }
-    else { m.classList.add("mapfs"); fsBtn.textContent = "✕ יציאה"; document.body.style.overflow = "hidden"; }
-    setTimeout(() => MAP && MAP.invalidateSize(), 100);
+    const exit = () => {
+      m.classList.remove("mapfs");
+      fsBtn.textContent = "⛶ מסך מלא";
+      document.body.style.overflow = "";
+      const float = m.querySelector(".mapfs-exit");
+      if (float) float.remove();
+      setTimeout(() => MAP && MAP.invalidateSize(), 100);
+    };
+    if (m.classList.contains("mapfs")) {
+      exit();
+    } else {
+      m.classList.add("mapfs");
+      fsBtn.textContent = "✕ יציאה";
+      document.body.style.overflow = "hidden";
+      // floating exit button on the map itself
+      let float = m.querySelector(".mapfs-exit");
+      if (!float) {
+        float = document.createElement("button");
+        float.className = "mapfs-exit";
+        float.textContent = "✕ יציאה ממסך מלא";
+        float.style.cssText = "position:absolute;top:12px;left:12px;z-index:2001;background:#fff;border:0;border-radius:12px;padding:8px 14px;font-weight:800;font-size:14px;box-shadow:0 3px 12px rgba(0,0,0,.35);cursor:pointer;";
+        float.onclick = exit;
+        m.appendChild(float);
+      }
+      setTimeout(() => MAP && MAP.invalidateSize(), 100);
+    }
   };
   // Place picker
   const pickBtn = $("#pickPlace");
