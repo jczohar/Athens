@@ -30,8 +30,16 @@ button{font:inherit;cursor:pointer}
 .iconbtn:active{transform:scale(.92)}
 .spin{animation:sp 1s linear infinite}@keyframes sp{to{transform:rotate(360deg)}}
 /* tabs */
-.tabs{position:sticky;top:88px;z-index:999;display:flex;gap:6px;overflow-x:auto;padding:8px 8px;background:rgba(255,255,255,.92);backdrop-filter:blur(8px);box-shadow:0 2px 6px rgba(0,0,0,.08);scrollbar-width:none}
+.tabs{position:sticky;top:88px;z-index:999;display:flex;gap:6px;overflow-x:auto;padding:8px 8px 6px;background:rgba(255,255,255,.92);backdrop-filter:blur(8px);box-shadow:0 2px 6px rgba(0,0,0,.08);scrollbar-width:none}
 .tabs::-webkit-scrollbar{display:none}
+/* desktop only: thin horizontal scrollbar under the menu */
+@media (min-width: 700px) {
+  .tabs{scrollbar-width:thin;scrollbar-color:#90caf9 transparent;padding-bottom:4px}
+  .tabs::-webkit-scrollbar{display:block;height:6px}
+  .tabs::-webkit-scrollbar-track{background:transparent;border-radius:6px}
+  .tabs::-webkit-scrollbar-thumb{background:#90caf9;border-radius:6px}
+  .tabs::-webkit-scrollbar-thumb:hover{background:#64b5f6}
+}
 .tab{flex:0 0 auto;border:0;border-radius:20px;padding:7px 13px;font-size:14px;font-weight:700;color:#fff;background:var(--tc);opacity:.78;display:flex;align-items:center;gap:5px}
 .tab.on{opacity:1;box-shadow:0 3px 10px rgba(0,0,0,.28);transform:translateY(-1px);outline:2px solid #fff}
 main{max-width:980px;margin:0 auto;padding:10px}
