@@ -39,3 +39,15 @@ self.addEventListener("fetch", e => {
     }).catch(() => caches.match("./index.html")))
   );
 });
+
+
+/* Focus existing client when a new launch is attempted */
+self.addEventListener("message", (event) => {
+  if (event.data && event.data.type === "FOCUS") {
+    self.clients.matchAll({ type: "window", includeUncontrolled: true }).then(list => {
+      for (const c of list) {
+        if ("focus" in c) { c.focus(); return; }
+      }
+    });
+  }
+});

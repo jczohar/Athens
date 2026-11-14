@@ -1007,6 +1007,27 @@ const HOTEL_AREAS = [["אקרופוליס / פלאקה / מקריאני", "akrop
 const INTERESTS = [["history", "היסטוריה וארכיאולוגיה"], ["food", "אוכל"], ["shopping", "קניות"], ["views", "נופים ותצפיות"], ["nature", "טבע ופארקים"], ["culture", "תרבות ומוזיאונים"], ["night", "חיי לילה"], ["sea", "ים ואיים"], ["jewish", "מורשת יהודית"], ["photo", "צילום"]];
 function parseDmy(s) { const m = /^(\d{2})\/(\d{2})\/(\d{4})$/.exec(s || ""); if (!m) return null; const d = new Date(+m[3], +m[2] - 1, +m[1]); return isNaN(d) ? null : d; }
 function maskDate(inp) { inp.addEventListener("input", () => { let v = inp.value.replace(/\D/g, "").slice(0, 8); if (v.length > 4) v = v.slice(0, 2) + "/" + v.slice(2, 4) + "/" + v.slice(4); else if (v.length > 2) v = v.slice(0, 2) + "/" + v.slice(2); inp.value = v; }); }
+function dmyToIso(s) { const m = /^(\d{2})\/(\d{2})\/(\d{4})$/.exec(s||""); return m ? m[3]+"-"+m[2]+"-"+m[1] : ""; }
+function isoToDmy(s) { const m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(s||""); return m ? m[3]+"/"+m[2]+"/"+m[1] : ""; }
+/** Attach calendar picker next to a DD/MM/YYYY text input */
+function bindDatePicker(textInp) {
+  if (!textInp || textInp.dataset.dp) return;
+  textInp.dataset.dp = "1";
+  const wrap = document.createElement("div");
+  wrap.style.cssText = "display:flex;gap:6px;align-items:center";
+  textInp.parentNode.insertBefore(wrap, textInp);
+  wrap.appendChild(textInp);
+  textInp.style.flex = "1";
+  const cal = document.createElement("input");
+  cal.type = "date";
+  cal.title = "בחרו מתאריך בלוח שנה";
+  cal.style.cssText = "width:42px;height:38px;padding:0;border:1.5px solid #cfe0f5;border-radius:10px;background:#f8fbff;cursor:pointer";
+  const iso = dmyToIso(textInp.value);
+  if (iso) cal.value = iso;
+  cal.addEventListener("change", () => { if (cal.value) textInp.value = isoToDmy(cal.value); });
+  textInp.addEventListener("input", () => { const v = dmyToIso(textInp.value); if (v) cal.value = v; });
+  wrap.appendChild(cal);
+}
 function buildPlan(f) {
   const n = Math.max(1, Math.min(15, +f.days || 3)), low = f.mobility === "low", kidsN = (+f.kids || 0) > 0;
   const maxTrips = !f.trips ? 0 : n >= 11 ? 3 : n >= 8 ? 2 : n >= 5 ? 1 : 0;
@@ -1026,7 +1047,7 @@ function renderRoutes(el) {
   el.innerHTML = hero("מסלולים מומלצים לפי מספר ימים (1–15)", "ענו על כמה שאלות והאפליקציה תבנה מסלול שמתחשב בהרכב הנוסעים, בתחומי העניין, ברמת ההליכה ובמיקום המלון.") +
     `<div class="box" style="--cc:#3949ab"><h3>שאלון קצר</h3><div class="f">
     <div><label>מספר ימים (1–15)</label><input id="p_days" type="number" min="1" max="15" value="${f0.days}"></div>
-    <div><label>תאריך הגעה (DD/MM/YYYY)</label><input id="p_start" type="text" inputmode="numeric" placeholder="DD/MM/YYYY" value="${esc(f0.start)}"></div>
+    <div><label>תאריך הגעה</label><input id="p_start" type="text" inputmode="numeric" placeholder="DD/MM/YYYY" value="${esc(f0.start)}"></div>
     <div><label>מבוגרים</label><input id="p_adults" type="number" min="1" value="${f0.adults}"></div>
     <div><label>ילדים (עד 17)</label><input id="p_kids" type="number" min="0" value="${f0.kids}"></div>
     <div><label>גילאי הילדים</label><input id="p_ages" type="text" placeholder="למשל 4, 9" value="${esc(f0.kidsAges)}"></div>
@@ -1038,7 +1059,7 @@ function renderRoutes(el) {
     </div><label style="margin:10px 0 4px;font-weight:700;font-size:13px">תחומי עניין</label><div class="chips" id="p_int">${INTERESTS.map(i => `<button type="button" class="chip${f0.interests.includes(i[0]) ? " on" : ""}" data-v="${i[0]}" style="--cc:#3949ab">${i[1]}</button>`).join("")}</div>
     <div class="chips"><button type="button" class="chip${f0.trips ? " on" : ""}" id="p_trips" style="--cc:#3949ab">🚌 כלול טיולי יום מחוץ לעיר</button><button type="button" class="chip${f0.stroller ? " on" : ""}" id="p_str" style="--cc:#3949ab">👶 עגלה / כיסא גלגלים</button></div>
     <div class="acts" style="margin-top:12px"><button class="btn" id="p_go" style="--cc:#3949ab">🧭 בנה לי מסלול</button></div></div><div id="plan"></div>`;
-  $("#p_mob").value = f0.mobility; $("#p_pace").value = f0.pace; $("#p_hotel").value = f0.hotel; $("#p_who").value = f0.who; maskDate($("#p_start"));
+  $("#p_mob").value = f0.mobility; $("#p_pace").value = f0.pace; $("#p_hotel").value = f0.hotel; $("#p_who").value = f0.who; maskDate($("#p_start")); bindDatePicker($("#p_start"));
   $$("#p_int .chip").forEach(b => b.onclick = () => b.classList.toggle("on")); $("#p_trips").onclick = e => e.target.classList.toggle("on"); $("#p_str").onclick = e => e.target.classList.toggle("on");
   const go = () => {
     const f = { days: Math.max(1, Math.min(15, +$("#p_days").value || 3)), start: $("#p_start").value, adults: +$("#p_adults").value || 1, kids: +$("#p_kids").value || 0, kidsAges: $("#p_ages").value, seniors: +$("#p_sen").value || 0, mobility: $("#p_mob").value, pace: $("#p_pace").value, hotel: $("#p_hotel").value, who: $("#p_who").value, interests: $$("#p_int .chip.on").map(b => b.dataset.v), trips: $("#p_trips").classList.contains("on"), stroller: $("#p_str").classList.contains("on") };
@@ -1046,30 +1067,134 @@ function renderRoutes(el) {
   };
   $("#p_go").onclick = go; if (store.get("plan", null)) showPlan(f0);
 }
-function showPlan(f) {
-  const days = buildPlan(f), sd = parseDmy(f.start), box = $("#plan");
+function wxForDate(dt) {
+  if (!WX || !WX.daily || !dt) return null;
+  const key = dt.getFullYear() + "-" + String(dt.getMonth()+1).padStart(2,"0") + "-" + String(dt.getDate()).padStart(2,"0");
+  const i = WX.daily.time.indexOf(key);
+  if (i < 0) return null;
+  const o = wxo(WX.daily.weather_code[i]);
+  return { ico: o[0], desc: o[1], max: Math.round(WX.daily.temperature_2m_max[i]), min: Math.round(WX.daily.temperature_2m_min[i]), rain: WX.daily.precipitation_probability_max[i] ?? 0 };
+}
+function showPlan(f, customDays) {
+  const days = customDays || (f._savedDays ? f._savedDays : buildPlan(f));
+  const sd = parseDmy(f.start), box = $("#plan");
+  if (!box) return;
   const free = ["01/11/2026", "06/12/2026", "03/01/2027", "07/02/2027", "07/03/2027"];
   const notes = [];
   if ((+f.kids) > 0) notes.push("יש ילדים בקבוצה — נבחרו ימים מתאימים יותר, עם הפסקות בפארקים ובגן. הכניסה לאקרופוליס חינם לילדים מתחת ל-18 (מחוץ לאיחוד האירופי).");
   if (f.mobility === "low" || f.stroller || f.seniors > 0) notes.push("הליכה מוגבלת: הימנעו מעליות רבות — באקרופוליס יש מעלית לנגישות (פרטים באתר), והכניסה לפילופאפוס/ארופגוס הושמטה. רוב הנסיעות מומלצות במונית קצרה או במטרו.");
   if (f.pace === "busy") notes.push("קצב אינטנסיבי: מומלץ להקדים ל-08:00 בכל יום ולשלב מונית בין אתרים.");
+  window._planDays = days;
+  window._planF = f;
   box.innerHTML = `<h3 style="margin:12px 4px 6px">המסלול שלכם — ${days.length} ${days.length === 1 ? "יום" : "ימים"}</h3>` + notes.map(n => `<div class="note">${esc(n)}</div>`).join("") +
+    `<div class="acts" style="margin-bottom:10px">
+      <button class="btn" id="planEdit" style="--cc:#3949ab">✏️ ערוך מסלול</button>
+      <button class="btn l" id="planSave">💾 שמור מסלול</button>
+      <button class="btn l" id="planLoad">📂 טען שמור</button>
+    </div>` +
     days.map((d, i) => {
       const dt = sd ? new Date(sd.getFullYear(), sd.getMonth(), sd.getDate() + i) : null; const dstr = dt ? dmy(dt) : "";
-      const hs = HOTEL_AREAS.find(h => h[1] === f.hotel)[1];
+      const hs = (HOTEL_AREAS.find(h => h[1] === f.hotel) || HOTEL_AREAS[1])[1];
       let how = d.trip ? d.startText : (d.start ? routeText(hs, d.start) : ""); if (!d.trip && hs === d.start) how = "המלון קרוב — אפשר ללכת ברגל";
       const extra = [];
       if (dt && dt.getDay() === 0 && d.notSunday) extra.push("ביום ראשון השוק סגור — החליפו עם יום אחר.");
       if (dt && dt.getDay() === 0 && d.sunday) extra.push("ביום ראשון בשעה 11:00 מתקיים טקס חילופי המשמר המלא.");
-      if (dt && free.includes(dstr) && d.sites.length) extra.push("היום ראשון הראשון בחודש (נוב׳–מרץ): כניסה חינם לאתרים הממלכתיים — אבל עמוס מאוד, הגיעו מוקדם.");
-      return `<div class="box day" style="--cc:#3949ab"><h3><span>יום ${i + 1}: ${esc(d.t)}</span>${dstr ? `<span class="tag p">${dstr}</span>` : ""}</h3>
-      <div class="row"><span class="tag ${d.effort >= 3 ? "r" : d.effort === 2 ? "o" : "g"}">${["", "הליכה קלה", "הליכה בינונית", "הליכה ועליות"][d.effort]}</span>${d.trip ? '<span class="tag p">טיול יום</span>' : ""}</div>
+      if (dt && free.includes(dstr) && d.sites && d.sites.length) extra.push("היום ראשון הראשון בחודש (נוב׳–מרץ): כניסה חינם לאתרים הממלכתיים — אבל עמוס מאוד, הגיעו מוקדם.");
+      const wx = wxForDate(dt);
+      const wxHtml = wx ? `<div class="row" style="margin:4px 0"><span class="tag" style="background:#e3f2fd;color:#0d47a1">${wx.ico} ${wx.min}°–${wx.max}° · ${wx.desc}${wx.rain ? " · 🌧 "+wx.rain+"%" : ""}</span></div>` : "";
+      return `<div class="box day" style="--cc:#3949ab" data-di="${i}"><h3><span>יום ${i + 1}: ${esc(d.t)}</span>${dstr ? `<span class="tag p">${dstr}</span>` : ""}</h3>
+      ${wxHtml}
+      <div class="row"><span class="tag ${d.effort >= 3 ? "r" : d.effort === 2 ? "o" : "g"}">${["", "הליכה קלה", "הליכה בינונית", "הליכה ועליות"][d.effort] || ""}</span>${d.trip ? '<span class="tag p">טיול יום</span>' : ""}</div>
       ${how ? `<p class="short">🚇 <b>מהמלון:</b> ${esc(how)}</p>` : ""}
       ${d.slots.filter(s => s[1] !== "—").map(s => `<div class="slot"><b>${s[0]}</b><span>${esc(s[1])}</span></div>`).join("")}
       ${extra.map(e => `<div class="note">${esc(e)}</div>`).join("")}</div>`; }).join("") +
-    `<p class="note">המסלול הוא הצעה — שעות ומחירים מופיעים בכרטיסי האתרים. בקיץ אפשר להאריך יום; בחורף הערבים מוקדמים (שקיעה בסביבות 17:00).</p>`;
+    `<p class="note">המסלול הוא הצעה — שעות ומחירים מופיעים בכרטיסי האתרים. בקיץ אפשר להאריך יום; בחורף הערבים מוקדמים (שקיעה בסביבות 17:00). תחזית מזג אוויר מוצגת לימים שבטווח התחזית (כ־7 ימים).</p>`;
+  // edit / save / load
+  const editBtn = $("#planEdit"), saveBtn = $("#planSave"), loadBtn = $("#planLoad");
+  if (editBtn) editBtn.onclick = () => editPlanDialog(days, f);
+  if (saveBtn) saveBtn.onclick = () => {
+    const name = prompt("שם למסלול השמור:", "המסלול שלי " + dmy(new Date()));
+    if (!name) return;
+    const saved = store.get("savedPlans", []);
+    saved.push({ name, f: { ...f, _savedDays: days }, days, at: Date.now() });
+    store.set("savedPlans", saved);
+    toast("המסלול נשמר: " + name);
+  };
+  if (loadBtn) loadBtn.onclick = () => {
+    const saved = store.get("savedPlans", []);
+    if (!saved.length) return toast("אין מסלולים שמורים");
+    const dlg = document.createElement("dialog");
+    dlg.innerHTML = `<h3>מסלולים שמורים</h3><div class="picker">` +
+      saved.map((s, i) => `<div class="pitem" data-i="${i}"><span>📂</span><div><b>${esc(s.name)}</b><br><small>${s.days.length} ימים · ${new Date(s.at).toLocaleDateString("he-IL")}</small></div>
+        <button class="btn l" data-del="${i}" style="margin-right:auto">🗑️</button></div>`).join("") +
+      `</div><div class="acts" style="margin-top:8px"><button class="btn l" id="clLoad">סגור</button></div>`;
+    document.body.appendChild(dlg); dlg.showModal();
+    $("#clLoad", dlg).onclick = () => { dlg.close(); dlg.remove(); };
+    $$(".pitem", dlg).forEach(el => {
+      el.onclick = (ev) => {
+        if (ev.target.closest("[data-del]")) return;
+        const s = saved[+el.dataset.i];
+        store.set("plan", s.f);
+        dlg.close(); dlg.remove();
+        showPlan(s.f, s.days);
+        toast("נטען: " + s.name);
+      };
+    });
+    $$("[data-del]", dlg).forEach(b => b.onclick = (ev) => {
+      ev.stopPropagation();
+      if (!confirm("למחוק מסלול זה?")) return;
+      saved.splice(+b.dataset.del, 1);
+      store.set("savedPlans", saved);
+      dlg.close(); dlg.remove();
+      toast("נמחק");
+    });
+  };
   box.scrollIntoView({ behavior: "smooth", block: "start" });
 }
+function editPlanDialog(days, f) {
+  const dlg = document.createElement("dialog");
+  dlg.style.width = "min(520px, 96vw)";
+  dlg.style.maxHeight = "90vh";
+  dlg.style.overflow = "auto";
+  const opts = DAYS.map(d => `<option value="${d.id}">${esc(d.t)}</option>`).join("");
+  dlg.innerHTML = `<h3>✏️ עריכת מסלול</h3><p class="short">שנו כותרת, בחרו יום אחר מהמאגר, או ערכו את תיאור השעות.</p>` +
+    days.map((d, i) => `<div class="box" style="--cc:#3949ab;margin:8px 0"><label><b>יום ${i+1}</b></label>
+      <input type="text" data-title="${i}" value="${esc(d.t)}" style="width:100%;margin:4px 0;padding:8px;border-radius:8px;border:1.5px solid #cfe0f5">
+      <label>החלף מתבנית:</label>
+      <select data-swap="${i}" style="width:100%;margin:4px 0;padding:8px;border-radius:8px"><option value="">— השאר נוכחי —</option>${opts}</select>
+      <label>בוקר</label><textarea data-slot="${i}-0" rows="2" style="width:100%;padding:6px;border-radius:8px;border:1.5px solid #cfe0f5">${esc((d.slots[0]&&d.slots[0][1])||"")}</textarea>
+      <label>צהריים</label><textarea data-slot="${i}-1" rows="2" style="width:100%;padding:6px;border-radius:8px;border:1.5px solid #cfe0f5">${esc((d.slots[1]&&d.slots[1][1])||"")}</textarea>
+      <label>אחה״צ</label><textarea data-slot="${i}-2" rows="2" style="width:100%;padding:6px;border-radius:8px;border:1.5px solid #cfe0f5">${esc((d.slots[2]&&d.slots[2][1])||"")}</textarea>
+      <label>ערב</label><textarea data-slot="${i}-3" rows="2" style="width:100%;padding:6px;border-radius:8px;border:1.5px solid #cfe0f5">${esc((d.slots[3]&&d.slots[3][1])||"")}</textarea>
+    </div>`).join("") +
+    `<div class="acts"><button class="btn" id="edOk" style="--cc:#3949ab">שמור שינויים</button><button class="btn l" id="edNo">ביטול</button></div>`;
+  document.body.appendChild(dlg); dlg.showModal();
+  $("#edNo", dlg).onclick = () => { dlg.close(); dlg.remove(); };
+  $("#edOk", dlg).onclick = () => {
+    const out = days.map((d, i) => {
+      const swapId = dlg.querySelector(`[data-swap="${i}"]`).value;
+      let base = swapId ? (DAYS.find(x => x.id === swapId) || d) : d;
+      base = { ...base, slots: (base.slots || []).map(s => [...s]) };
+      base.t = dlg.querySelector(`[data-title="${i}"]`).value.trim() || base.t;
+      for (let s = 0; s < 4; s++) {
+        const ta = dlg.querySelector(`[data-slot="${i}-${s}"]`);
+        if (ta && base.slots[s]) base.slots[s][1] = ta.value;
+        else if (ta && ta.value) {
+          while (base.slots.length <= s) base.slots.push(["", ""]);
+          const labels = ["בוקר", "צהריים", "אחה״צ", "ערב"];
+          base.slots[s] = [labels[s], ta.value];
+        }
+      }
+      return base;
+    });
+    f._savedDays = out;
+    store.set("plan", f);
+    dlg.close(); dlg.remove();
+    showPlan(f, out);
+    toast("המסלול עודכן");
+  };
+}
+
 
 /* ===== אירועים ===== */
 function renderEvents(el, soft) {
@@ -1169,6 +1294,49 @@ function whatToDoToday() {
   const gr = $("#goRoutes", dlg); if (gr) gr.onclick = () => { dlg.close(); dlg.remove(); show("routes"); };
   const gs = $("#goSites", dlg); if (gs) gs.onclick = () => { dlg.close(); dlg.remove(); show("sites"); };
 }
+
+/* ===== מופע יחיד – אם כבר פתוח, ממקדים אותו ===== */
+(function singleInstance() {
+  try {
+    const bc = new BroadcastChannel("athens-guide-lock");
+    const myId = Math.random().toString(36).slice(2);
+    let isPrimary = true;
+    bc.postMessage({ type: "ping", id: myId });
+    bc.onmessage = (ev) => {
+      const m = ev.data || {};
+      if (m.type === "ping" && m.id !== myId) {
+        // another instance is asking – reply that we exist
+        bc.postMessage({ type: "pong", id: myId });
+      }
+      if (m.type === "pong" && m.id !== myId) {
+        // someone else is already open – ask them to focus, we can stay or close
+      }
+      if (m.type === "focus-request") {
+        try { window.focus(); } catch (e) {}
+        // flash title
+        const t = document.title;
+        document.title = "★ אתונה – כבר פתוח";
+        setTimeout(() => document.title = t, 1500);
+        if (navigator.serviceWorker && navigator.serviceWorker.controller) {
+          // no-op, focus is enough
+        }
+      }
+    };
+    // On load, ask others to report; if we get pong quickly, request focus on them
+    let gotPong = false;
+    const onPong = (ev) => {
+      if (ev.data && ev.data.type === "pong" && ev.data.id !== myId) {
+        gotPong = true;
+        bc.postMessage({ type: "focus-request" });
+      }
+    };
+    bc.addEventListener("message", onPong);
+    setTimeout(() => bc.removeEventListener("message", onPong), 800);
+    // Also handle pageshow from BFCache / launch
+    window.addEventListener("pageshow", () => { try { window.focus(); } catch (e) {} });
+  } catch (e) { /* BroadcastChannel not available */ }
+})();
+
 function init() {
   $("#tabs").innerHTML = TABS.map(t => `<button class="tab" data-t="${t.id}" style="--tc:${t.c}"><span>${t.i}</span>${t.t}</button>`).join("");
   $$(".tab").forEach(b => b.onclick = () => show(b.dataset.t));
