@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>אתונה – מידע למטייל</title>
-<meta name="description" content="מדריך אתונה המקיף לתייר – אתרים, מלונות, תחבורה, מסעדות, מסלולים ומזג אוויר. יוצר: יעקב זוהר">
+<meta name="description" content="מדריך אתונה המקיף לתייר. יוצר: יעקב זוהר">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="אתונה">
@@ -17,7 +17,7 @@
 :root{--blue:#0d47a1;--blue2:#1976d2;--gold:#f5c542;--ink:#1b2a41;--mut:#5b6b82;--bg:#eef4fb;--card:#fff;--cc:#1976d2}
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 html{scroll-behavior:smooth}
-body{margin:0;font-family:"Segoe UI","Noto Sans Hebrew",Arial,sans-serif;background:linear-gradient(180deg,#e3f0ff 0%,#f7fbff 40%,#fff6e6 100%);color:var(--ink);direction:rtl;min-height:100vh;padding-bottom:72px}
+body{margin:0;font-family:"Segoe UI","Noto Sans Hebrew",Arial,sans-serif;background:linear-gradient(180deg,#e3f0ff 0%,#f7fbff 40%,#fff6e6 100%);color:var(--ink);direction:rtl;min-height:100vh;padding-bottom:64px}
 a{color:#0b57d0;text-decoration:none}
 button{font:inherit;cursor:pointer}
 /* header */
@@ -30,16 +30,8 @@ button{font:inherit;cursor:pointer}
 .iconbtn:active{transform:scale(.92)}
 .spin{animation:sp 1s linear infinite}@keyframes sp{to{transform:rotate(360deg)}}
 /* tabs */
-.tabs{position:sticky;top:88px;z-index:999;display:flex;gap:6px;overflow-x:auto;padding:8px 8px 6px;background:rgba(255,255,255,.92);backdrop-filter:blur(8px);box-shadow:0 2px 6px rgba(0,0,0,.08);scrollbar-width:none}
+.tabs{position:sticky;top:88px;z-index:999;display:flex;gap:6px;overflow-x:auto;padding:8px 8px;background:rgba(255,255,255,.92);backdrop-filter:blur(8px);box-shadow:0 2px 6px rgba(0,0,0,.08);scrollbar-width:none}
 .tabs::-webkit-scrollbar{display:none}
-/* desktop only: thin horizontal scrollbar under the menu */
-@media (min-width: 700px) {
-  .tabs{scrollbar-width:thin;scrollbar-color:#90caf9 transparent;padding-bottom:4px}
-  .tabs::-webkit-scrollbar{display:block;height:6px}
-  .tabs::-webkit-scrollbar-track{background:transparent;border-radius:6px}
-  .tabs::-webkit-scrollbar-thumb{background:#90caf9;border-radius:6px}
-  .tabs::-webkit-scrollbar-thumb:hover{background:#64b5f6}
-}
 .tab{flex:0 0 auto;border:0;border-radius:20px;padding:7px 13px;font-size:14px;font-weight:700;color:#fff;background:var(--tc);opacity:.78;display:flex;align-items:center;gap:5px}
 .tab.on{opacity:1;box-shadow:0 3px 10px rgba(0,0,0,.28);transform:translateY(-1px);outline:2px solid #fff}
 main{max-width:980px;margin:0 auto;padding:10px}
@@ -116,7 +108,7 @@ dialog::backdrop{background:rgba(0,0,0,.5)}
 @media(min-width:700px){.brand{font-size:20px}.hero h2{font-size:25px}}
 
 
-/* weather strip always on top */
+/* weather strip */
 .wxstrip{position:sticky;top:44px;z-index:998;background:linear-gradient(90deg,#1565c0,#0d47a1);color:#fff;padding:6px 10px;display:flex;align-items:center;gap:10px;overflow-x:auto;font-size:13px;box-shadow:0 2px 6px rgba(0,0,0,.15)}
 .wxstrip .now{display:flex;align-items:center;gap:6px;white-space:nowrap;font-weight:700}
 .wxstrip .now b{font-size:18px}
@@ -125,19 +117,22 @@ dialog::backdrop{background:rgba(0,0,0,.5)}
 .wxstrip .d b{display:block;font-size:14px}
 .todaybtn{border:0;background:linear-gradient(180deg,#fff2a8,#f5c542);color:#3b2a00;border-radius:16px;padding:5px 12px;font-weight:800;font-size:13px;white-space:nowrap;box-shadow:0 2px 6px rgba(0,0,0,.25)}
 .todaybtn:active{transform:scale(.96)}
-/* fullscreen map */
 .mapfs{position:fixed!important;inset:0!important;z-index:2000!important;height:100vh!important;min-height:100vh!important;border-radius:0!important}
-.mapfs-btn{position:absolute;top:10px;left:10px;z-index:1001;background:#fff;border:0;border-radius:10px;padding:6px 10px;font-weight:700;box-shadow:0 2px 8px rgba(0,0,0,.25);font-size:13px}
 .picker{max-height:55vh;overflow-y:auto}
 .picker .pitem{display:flex;align-items:center;gap:8px;padding:8px;border-bottom:1px solid #e6eef9;cursor:pointer}
 .picker .pitem:active{background:#e8f1ff}
-.picker .pitem span{font-size:20px}
-/* phrase table */
 .phrases{width:100%;border-collapse:collapse;font-size:13.5px;background:#fff;border-radius:12px;overflow:hidden}
 .phrases th{background:#546e7a;color:#fff;padding:7px 8px;text-align:right}
 .phrases td{padding:7px 8px;border-bottom:1px solid #e6eef9;vertical-align:middle}
 .phrases tr:nth-child(even){background:#f7fafc}
 .speak{border:0;background:#e3f2fd;border-radius:50%;width:28px;height:28px;font-size:14px}
+@media (min-width: 700px) {
+  .tabs{scrollbar-width:thin;scrollbar-color:#90caf9 transparent;padding-bottom:4px}
+  .tabs::-webkit-scrollbar{display:block;height:6px}
+  .tabs::-webkit-scrollbar-track{background:transparent;border-radius:6px}
+  .tabs::-webkit-scrollbar-thumb{background:#90caf9;border-radius:6px}
+  .tabs::-webkit-scrollbar-thumb:hover{background:#64b5f6}
+}
 
 </style>
 </head>
@@ -159,7 +154,7 @@ dialog::backdrop{background:rgba(0,0,0,.5)}
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <script>
 /* מדריך אתונה — נתונים מעודכנים. גרסה 20261113-02 — מדריך מקיף לכל העונות */
-const APP_VERSION = "20261115-02";
+const APP_VERSION = "20261115-03";
 const FREE_DAYS_NOTE = "חינם לכל המבקרים (אתרים ממלכתיים): 6 במרץ, 18 באפריל, 18 במאי, סוף השבוע האחרון של ספטמבר, 28 באוקטובר, וכן הראשון והשלישי בכל חודש מנובמבר עד מרץ. בימי חינם תורים ארוכים מאוד — הגיעו מוקדם. כרטיס חינם עדיין דורש הזמנת חלון זמן באתר הרשמי.";
 const CLOSED_NOTE = "אתרים ארכיאולוגיים סגורים בדרך כלל: 1 בינואר, 25 במרץ, 1 במאי, חג הפסחא האורתודוקסי, 25–26 בדצמבר. אמתו תמיד באתר הרשמי.";
 
@@ -709,69 +704,62 @@ function renderMap(el) {
     if (!navigator.geolocation) return toast("המכשיר אינו תומך במיקום");
     navigator.geolocation.getCurrentPosition(p => { const ll = [p.coords.latitude, p.coords.longitude]; L.circleMarker(ll, { radius: 9, color: "#fff", weight: 3, fillColor: "#1e88e5", fillOpacity: 1 }).addTo(MAP).bindPopup("אתם כאן").openPopup(); MAP.setView(ll, 15); }, () => toast("לא ניתן לקבל מיקום — אשרו הרשאה במכשיר"));
   });
-  // Fullscreen – exit button floats on the map so it stays visible
   const fsBtn = $("#mapfsbtn");
-  if (fsBtn) fsBtn.onclick = () => {
+  if (fsBtn) fsBtn.onclick = function() {
     const m = $("#map");
-    const exit = () => {
+    function exitFs() {
       m.classList.remove("mapfs");
       fsBtn.textContent = "⛶ מסך מלא";
       document.body.style.overflow = "";
-      const float = m.querySelector(".mapfs-exit");
-      if (float) float.remove();
-      setTimeout(() => MAP && MAP.invalidateSize(), 100);
-    };
-    if (m.classList.contains("mapfs")) {
-      exit();
-    } else {
-      m.classList.add("mapfs");
-      fsBtn.textContent = "✕ יציאה";
-      document.body.style.overflow = "hidden";
-      // floating exit button on the map itself
-      let float = m.querySelector(".mapfs-exit");
-      if (!float) {
-        float = document.createElement("button");
-        float.className = "mapfs-exit";
-        float.textContent = "✕ יציאה ממסך מלא";
-        float.style.cssText = "position:absolute;top:12px;left:12px;z-index:2001;background:#fff;border:0;border-radius:12px;padding:8px 14px;font-weight:800;font-size:14px;box-shadow:0 3px 12px rgba(0,0,0,.35);cursor:pointer;";
-        float.onclick = exit;
-        m.appendChild(float);
-      }
-      setTimeout(() => MAP && MAP.invalidateSize(), 100);
+      const fl = m.querySelector(".mapfs-exit");
+      if (fl) fl.remove();
+      setTimeout(function() { if (MAP) MAP.invalidateSize(); }, 100);
     }
+    if (m.classList.contains("mapfs")) { exitFs(); return; }
+    m.classList.add("mapfs");
+    fsBtn.textContent = "✕ יציאה";
+    document.body.style.overflow = "hidden";
+    const float = document.createElement("button");
+    float.className = "mapfs-exit";
+    float.textContent = "✕ יציאה ממסך מלא";
+    float.style.cssText = "position:absolute;top:12px;left:12px;z-index:2001;background:#fff;border:0;border-radius:12px;padding:8px 14px;font-weight:800;font-size:14px;box-shadow:0 3px 12px rgba(0,0,0,.35);cursor:pointer";
+    float.onclick = exitFs;
+    m.appendChild(float);
+    setTimeout(function() { if (MAP) MAP.invalidateSize(); }, 100);
   };
-  // Place picker
   const pickBtn = $("#pickPlace");
-  if (pickBtn) pickBtn.onclick = () => {
+  if (pickBtn) pickBtn.onclick = function() {
     const items = [];
-    SITES.filter(s => s.area !== "far").forEach(s => items.push({cat:"sites", he:s.he, en:s.en, lat:s.lat, lng:s.lng, ico:"🏛️"}));
-    HOTELS.forEach(h => items.push({cat:"hotels", he:h.he, en:h.en, lat:h.lat, lng:h.lng, ico:"🏨"}));
-    RESTAURANTS.forEach(r => items.push({cat:"rest", he:r.he, en:r.en||r.type, lat:r.lat, lng:r.lng, ico:"🍽️"}));
-    Object.entries(ST).filter(([,v])=>v[3]).forEach(([id,v]) => items.push({cat:"metro", he:v[1], en:v[0], lat:v[3], lng:v[4], ico:"🚇"}));
+    SITES.filter(function(s) { return s.area !== "far"; }).forEach(function(s) { items.push({ cat: "sites", he: s.he, en: s.en, lat: s.lat, lng: s.lng, ico: "🏛️" }); });
+    HOTELS.forEach(function(h) { items.push({ cat: "hotels", he: h.he, en: h.en, lat: h.lat, lng: h.lng, ico: "🏨" }); });
+    RESTAURANTS.forEach(function(r) { items.push({ cat: "rest", he: r.he, en: r.en || r.type, lat: r.lat, lng: r.lng, ico: "🍽️" }); });
+    Object.entries(ST).filter(function(e) { return e[1][3]; }).forEach(function(e) { items.push({ cat: "metro", he: e[1][1], en: e[1][0], lat: e[1][3], lng: e[1][4], ico: "🚇" }); });
     const dlg = document.createElement("dialog");
-    dlg.innerHTML = `<h3>בחר מקום במפה</h3>
-      <input type="search" id="pickq" placeholder="חיפוש..." style="width:100%;padding:8px;margin:6px 0;border-radius:10px;border:1.5px solid #cfe0f5">
-      <div class="picker" id="picklist"></div>
-      <div class="acts" style="margin-top:8px"><button class="btn l" id="pickclose">סגור</button></div>`;
+    dlg.innerHTML = '<h3>בחר מקום במפה</h3><input type="search" id="pickq" placeholder="חיפוש..." style="width:100%;padding:8px;margin:6px 0;border-radius:10px;border:1.5px solid #cfe0f5"><div class="picker" id="picklist"></div><div class="acts" style="margin-top:8px"><button class="btn l" id="pickclose">סגור</button></div>';
     document.body.appendChild(dlg); dlg.showModal();
-    const draw = (q="") => {
-      const qq = q.trim().toLowerCase();
-      const list = items.filter(x => !qq || (x.he+" "+x.en).toLowerCase().includes(qq));
-      $("#picklist", dlg).innerHTML = list.slice(0,80).map((x,i) => `<div class="pitem" data-i="${i}"><span>${x.ico}</span><div><b>${esc(x.he)}</b><br><small>${esc(x.en||"")}</small></div></div>`).join("") || "<p>אין תוצאות</p>";
-      $$(".pitem", dlg).forEach(el => el.onclick = () => {
-        const it = list[+el.dataset.i];
-        dlg.close(); dlg.remove();
-        MAP.setView([it.lat, it.lng], 16);
-        L.marker([it.lat, it.lng], {icon: mkIcon(it.cat)}).addTo(MAP).bindPopup(popup(esc(it.he), esc(it.en||""), it.lat, it.lng)).openPopup();
-        toast("מסומן במפה: " + it.he);
+    function draw(q) {
+      q = (q || "").trim().toLowerCase();
+      const list = items.filter(function(x) { return !q || (x.he + " " + x.en).toLowerCase().indexOf(q) >= 0; });
+      $("#picklist", dlg).innerHTML = list.slice(0, 80).map(function(x, i) {
+        return '<div class="pitem" data-i="' + i + '"><span>' + x.ico + '</span><div><b>' + esc(x.he) + '</b><br><small>' + esc(x.en || "") + '</small></div></div>';
+      }).join("") || "<p>אין תוצאות</p>";
+      $$(".pitem", dlg).forEach(function(el) {
+        el.onclick = function() {
+          const it = list[+el.dataset.i];
+          dlg.close(); dlg.remove();
+          MAP.setView([it.lat, it.lng], 16);
+          L.marker([it.lat, it.lng], { icon: mkIcon(it.cat) }).addTo(MAP).bindPopup(popup(esc(it.he), esc(it.en || ""), it.lat, it.lng)).openPopup();
+          toast("מסומן: " + it.he);
+        };
       });
-    };
-    draw();
-    $("#pickq", dlg).oninput = e => draw(e.target.value);
-    $("#pickclose", dlg).onclick = () => { dlg.close(); dlg.remove(); };
+    }
+    draw("");
+    $("#pickq", dlg).oninput = function(e) { draw(e.target.value); };
+    $("#pickclose", dlg).onclick = function() { dlg.close(); dlg.remove(); };
   };
-  setTimeout(() => MAP && MAP.invalidateSize(), 200);
+  setTimeout(function() { if (MAP) MAP.invalidateSize(); }, 200);
 }
+
 
 /* ===== אתרים ===== */
 function siteCard(s) {
@@ -969,20 +957,26 @@ const PHRASES = [
   ["עזרה!", "Βοήθεια!", "Voíthia!"]
 ];
 function speakGreek(text) {
-  if (!window.speechSynthesis) { toast("השמעה לא נתמכת במכשיר"); return; }
+  if (!window.speechSynthesis) { toast("השמעה לא נתמכת"); return; }
   const u = new SpeechSynthesisUtterance(text);
   u.lang = "el-GR"; u.rate = 0.9;
   speechSynthesis.cancel(); speechSynthesis.speak(u);
 }
 function renderTips(el) {
-  el.innerHTML = hero("טיפים — דברים שחשוב לדעת", "בטיחות, כסף, שעות פעילות, שפה, הגעה משדה התעופה ועוד.") +
-    TIPS.map(g => `<details class="box" style="--cc:#546e7a" open><summary style="font-size:16px">${g.i} ${g.t}</summary><ul>${g.items.map(i => `<li>${esc(i)}</li>`).join("")}</ul></details>`).join("") +
-    `<div class="box" style="--cc:#546e7a"><h3>🗣️ ביטויים שימושיים ביוונית (עם השמעה)</h3>
-    <table class="phrases"><thead><tr><th>עברית</th><th>יוונית</th><th>הגייה</th><th></th></tr></thead>
-    <tbody>${PHRASES.map(p => `<tr><td>${esc(p[0])}</td><td dir="ltr">${esc(p[1])}</td><td dir="ltr">${esc(p[2])}</td><td><button class="speak" data-say="${esc(p[1])}" title="השמע">🔊</button></td></tr>`).join("")}</tbody></table>
-    <p class="note">לחצו על 🔊 להשמעה. אם אין קול יווני במכשיר — ההשמעה תהיה באנגלית/ברירת מחדל.</p></div>`;
-  $$(".speak", el).forEach(b => b.onclick = () => speakGreek(b.dataset.say));
+  el.innerHTML = hero("טיפים — דברים שחשוב לדעת", "בטיחות, כסף, שעות, שפה ועוד.") +
+    TIPS.map(function(g) {
+      return '<details class="box" style="--cc:#546e7a" open><summary style="font-size:16px">' + g.i + " " + g.t + '</summary><ul>' +
+        g.items.map(function(i) { return "<li>" + esc(i) + "</li>"; }).join("") + "</ul></details>";
+    }).join("") +
+    '<div class="box" style="--cc:#546e7a"><h3>🗣️ ביטויים שימושיים (עם השמעה)</h3>' +
+    '<table class="phrases"><thead><tr><th>עברית</th><th>יוונית</th><th>הגייה</th><th></th></tr></thead><tbody>' +
+    PHRASES.map(function(p) {
+      return "<tr><td>" + esc(p[0]) + '</td><td dir="ltr">' + esc(p[1]) + '</td><td dir="ltr">' + esc(p[2]) +
+        '</td><td><button class="speak" data-say="' + esc(p[1]) + '">🔊</button></td></tr>';
+    }).join("") + "</tbody></table></div>";
+  $$(".speak", el).forEach(function(b) { b.onclick = function() { speakGreek(b.dataset.say); }; });
 }
+
 
 /* ===== מסלולים ===== */
 const DAYS = [
@@ -1004,7 +998,6 @@ const DAYS = [
   { id: "d16", t: "יום חופשי / לפי העדפה", effort: 1, kids: true, tags: ["walk"], start: "syntagma", slots: [["בוקר", "חזרה למקום האהוב עליכם או מנוחה."], ["צהריים", "—"], ["אחה״צ", "—"], ["ערב", "ארוחה נעימה."]], sites: [] }
 ];
 const HOTEL_AREAS = [
-  ["— אזורים —", ""],
   ["אקרופוליס / פלאקה / מקריאני", "akropoli"],
   ["סינטגמה", "syntagma"],
   ["מונסטיראקי / פסירי", "monastiraki"],
@@ -1015,61 +1008,58 @@ const HOTEL_AREAS = [
   ["עדיין לא בחרתי", "syntagma"]
 ];
 function hotelSelectOptions(selected) {
-  let html = '<optgroup label="אזורים כלליים">';
-  HOTEL_AREAS.filter(h => h[1]).forEach(h => {
-    html += `<option value="${h[1]}" ${selected === h[1] ? "selected" : ""}>${h[0]}</option>`;
+  let h = '<optgroup label="אזורים כלליים">';
+  HOTEL_AREAS.forEach(function(x) {
+    h += '<option value="' + x[1] + '"' + (selected === x[1] ? ' selected' : '') + '>' + x[0] + '</option>';
   });
-  html += '</optgroup><optgroup label="מלונות מומלצים">';
-  if (typeof HOTELS !== "undefined") {
-    HOTELS.forEach(h => {
-      const metro = h.metro ? " · מטרו: " + h.metro : "";
-      const val = "hotel:" + h.id;
-      html += `<option value="${val}" ${selected === val ? "selected" : ""}>${"★".repeat(h.stars)} ${h.he} (${h.area})${metro}</option>`;
-    });
-  }
-  html += '</optgroup><optgroup label="קירבה לתחנת מטרו">';
-  [["akropoli","Akropoli — אקרופוליס"],["syntagma","Syntagma — סינטגמה"],["monastiraki","Monastiraki — מונסטיראקי"],["thiseio","Thiseio — תיסיו"],["evangelismos","Evangelismos — אוואנגליסמוס"],["omonia","Omonia — אומוניה"],["kerameikos","Kerameikos — קרמיקוס"],["piraeus","Piraeus — פיראוס"]].forEach(([v,t]) => {
-    html += `<option value="${v}" ${selected === v ? "selected" : ""}>🚇 ${t}</option>`;
+  h += '</optgroup><optgroup label="מלונות מומלצים">';
+  HOTELS.forEach(function(ht) {
+    var val = 'hotel:' + ht.id;
+    var metro = ht.metro ? ' · מטרו: ' + ht.metro : '';
+    h += '<option value="' + val + '"' + (selected === val ? ' selected' : '') + '>' + '★'.repeat(ht.stars) + ' ' + ht.he + ' (' + ht.area + ')' + metro + '</option>';
   });
-  html += "</optgroup>";
-  return html;
+  h += '</optgroup><optgroup label="קירבה לתחנת מטרו">';
+  [["akropoli","Akropoli — אקרופוליס"],["syntagma","Syntagma — סינטגמה"],["monastiraki","Monastiraki — מונסטיראקי"],["thiseio","Thiseio — תיסיו"],["evangelismos","Evangelismos — אוואנגליסמוס"],["omonia","Omonia — אומוניה"],["kerameikos","Kerameikos — קרמיקוס"],["piraeus","Piraeus — פיראוס"]].forEach(function(x) {
+    h += '<option value="' + x[0] + '"' + (selected === x[0] ? ' selected' : '') + '>🚇 ' + x[1] + '</option>';
+  });
+  h += '</optgroup>';
+  return h;
 }
 function resolveHotelStation(hotelVal) {
-  if (!hotelVal) return "syntagma";
-  if (hotelVal.startsWith("hotel:")) {
-    const id = hotelVal.slice(6);
-    const h = (typeof HOTELS !== "undefined") && HOTELS.find(x => x.id === id);
-    if (h && h.metro) {
-      const m = h.metro.toLowerCase();
-      if (m.includes("akropol")) return "akropoli";
-      if (m.includes("syntagma")) return "syntagma";
-      if (m.includes("monastiraki")) return "monastiraki";
-      if (m.includes("thiseio") || m.includes("thisio")) return "thiseio";
-      if (m.includes("evangelismos")) return "evangelismos";
-      if (m.includes("omonia")) return "omonia";
-      if (m.includes("kerameikos")) return "kerameikos";
-      if (m.includes("piraeus")) return "piraeus";
+  if (!hotelVal) return 'syntagma';
+  if (hotelVal.indexOf('hotel:') === 0) {
+    var id = hotelVal.slice(6);
+    var ht = HOTELS.find(function(x) { return x.id === id; });
+    if (ht && ht.metro) {
+      var m = ht.metro.toLowerCase();
+      if (m.indexOf('akropol') >= 0) return 'akropoli';
+      if (m.indexOf('syntagma') >= 0) return 'syntagma';
+      if (m.indexOf('monastiraki') >= 0) return 'monastiraki';
+      if (m.indexOf('thiseio') >= 0 || m.indexOf('thisio') >= 0) return 'thiseio';
+      if (m.indexOf('evangelismos') >= 0) return 'evangelismos';
+      if (m.indexOf('omonia') >= 0) return 'omonia';
+      if (m.indexOf('kerameikos') >= 0) return 'kerameikos';
+      if (m.indexOf('piraeus') >= 0) return 'piraeus';
     }
-    // fallback by area text
-    if (h) {
-      const a = (h.area || "").toLowerCase();
-      if (a.includes("אקרופוליס") || a.includes("פלאקה") || a.includes("מקריאני")) return "akropoli";
-      if (a.includes("סינטגמה")) return "syntagma";
-      if (a.includes("מונסטיראקי") || a.includes("פסירי")) return "monastiraki";
-      if (a.includes("קולונקי") || a.includes("אוואנגליסמוס")) return "evangelismos";
-      if (a.includes("אומוניה")) return "omonia";
-      if (a.includes("פיראוס")) return "piraeus";
+    if (ht) {
+      var a = (ht.area || '');
+      if (/אקרופוליס|פלאקה|מקריאני/.test(a)) return 'akropoli';
+      if (/סינטגמה/.test(a)) return 'syntagma';
+      if (/מונסטיראקי|פסירי/.test(a)) return 'monastiraki';
+      if (/קולונקי|אוואנגליסמוס/.test(a)) return 'evangelismos';
+      if (/אומוניה/.test(a)) return 'omonia';
+      if (/פיראוס/.test(a)) return 'piraeus';
     }
-    return "syntagma";
+    return 'syntagma';
   }
   return hotelVal;
 }
+
 const INTERESTS = [["history", "היסטוריה וארכיאולוגיה"], ["food", "אוכל"], ["shopping", "קניות"], ["views", "נופים ותצפיות"], ["nature", "טבע ופארקים"], ["culture", "תרבות ומוזיאונים"], ["night", "חיי לילה"], ["sea", "ים ואיים"], ["jewish", "מורשת יהודית"], ["photo", "צילום"]];
 function parseDmy(s) { const m = /^(\d{2})\/(\d{2})\/(\d{4})$/.exec(s || ""); if (!m) return null; const d = new Date(+m[3], +m[2] - 1, +m[1]); return isNaN(d) ? null : d; }
 function maskDate(inp) { inp.addEventListener("input", () => { let v = inp.value.replace(/\D/g, "").slice(0, 8); if (v.length > 4) v = v.slice(0, 2) + "/" + v.slice(2, 4) + "/" + v.slice(4); else if (v.length > 2) v = v.slice(0, 2) + "/" + v.slice(2); inp.value = v; }); }
-function dmyToIso(s) { const m = /^(\d{2})\/(\d{2})\/(\d{4})$/.exec(s||""); return m ? m[3]+"-"+m[2]+"-"+m[1] : ""; }
-function isoToDmy(s) { const m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(s||""); return m ? m[3]+"/"+m[2]+"/"+m[1] : ""; }
-/** Attach calendar picker next to a DD/MM/YYYY text input */
+function dmyToIso(s) { const m = /^(\d{2})\/(\d{2})\/(\d{4})$/.exec(s || ""); return m ? m[3] + "-" + m[2] + "-" + m[1] : ""; }
+function isoToDmy(s) { const m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(s || ""); return m ? m[3] + "/" + m[2] + "/" + m[1] : ""; }
 function bindDatePicker(textInp) {
   if (!textInp || textInp.dataset.dp) return;
   textInp.dataset.dp = "1";
@@ -1078,26 +1068,24 @@ function bindDatePicker(textInp) {
   textInp.parentNode.insertBefore(wrap, textInp);
   wrap.appendChild(textInp);
   textInp.style.flex = "1";
-  // calendar icon button only – native date input is visually hidden but triggered by icon
   const btn = document.createElement("button");
   btn.type = "button";
   btn.title = "בחרו תאריך מלוח שנה";
   btn.setAttribute("aria-label", "לוח שנה");
-  btn.innerHTML = "📅";
+  btn.textContent = "📅";
   btn.style.cssText = "width:40px;height:38px;padding:0;border:1.5px solid #cfe0f5;border-radius:10px;background:#f8fbff;cursor:pointer;font-size:20px;display:grid;place-items:center;flex-shrink:0";
   const cal = document.createElement("input");
   cal.type = "date";
   cal.style.cssText = "position:absolute;opacity:0;width:0;height:0;pointer-events:none";
   const iso = dmyToIso(textInp.value);
   if (iso) cal.value = iso;
-  cal.addEventListener("change", () => { if (cal.value) { textInp.value = isoToDmy(cal.value); } });
-  textInp.addEventListener("input", () => { const v = dmyToIso(textInp.value); if (v) cal.value = v; });
-  btn.addEventListener("click", () => {
-    try { if (cal.showPicker) cal.showPicker(); else cal.click(); } catch (e) { cal.click(); }
-  });
+  cal.addEventListener("change", function() { if (cal.value) textInp.value = isoToDmy(cal.value); });
+  textInp.addEventListener("input", function() { const v = dmyToIso(textInp.value); if (v) cal.value = v; });
+  btn.addEventListener("click", function() { try { if (cal.showPicker) cal.showPicker(); else cal.click(); } catch (e) { cal.click(); } });
   wrap.appendChild(btn);
   wrap.appendChild(cal);
 }
+
 function buildPlan(f) {
   const n = Math.max(1, Math.min(10, +f.days || 3)), low = f.mobility === "low", kidsN = (+f.kids || 0) > 0;
   const maxTrips = !f.trips ? 0 : n >= 11 ? 3 : n >= 8 ? 2 : n >= 5 ? 1 : 0;
@@ -1139,102 +1127,38 @@ function renderRoutes(el) {
 }
 function wxForDate(dt) {
   if (!WX || !WX.daily || !dt) return null;
-  const key = dt.getFullYear() + "-" + String(dt.getMonth()+1).padStart(2,"0") + "-" + String(dt.getDate()).padStart(2,"0");
+  const key = dt.getFullYear() + "-" + String(dt.getMonth() + 1).padStart(2, "0") + "-" + String(dt.getDate()).padStart(2, "0");
   const i = WX.daily.time.indexOf(key);
   if (i < 0) return null;
   const o = wxo(WX.daily.weather_code[i]);
   return { ico: o[0], desc: o[1], max: Math.round(WX.daily.temperature_2m_max[i]), min: Math.round(WX.daily.temperature_2m_min[i]), rain: WX.daily.precipitation_probability_max[i] ?? 0 };
 }
-function showPlan(f, customDays) {
-  const days = customDays || (f._savedDays ? f._savedDays : buildPlan(f));
-  const sd = parseDmy(f.start), box = $("#plan");
-  if (!box) return;
-  const free = ["01/11/2026", "06/12/2026", "03/01/2027", "07/02/2027", "07/03/2027"];
-  const notes = [];
-  if ((+f.kids) > 0) notes.push("יש ילדים בקבוצה — נבחרו ימים מתאימים יותר, עם הפסקות בפארקים ובגן. הכניסה לאקרופוליס חינם לילדים מתחת ל-18 (מחוץ לאיחוד האירופי).");
-  if (f.mobility === "low" || f.stroller || f.seniors > 0) notes.push("הליכה מוגבלת: הימנעו מעליות רבות — באקרופוליס יש מעלית לנגישות (פרטים באתר), והכניסה לפילופאפוס/ארופגוס הושמטה. רוב הנסיעות מומלצות במונית קצרה או במטרו.");
-  if (f.pace === "busy") notes.push("קצב אינטנסיבי: מומלץ להקדים ל-08:00 בכל יום ולשלב מונית בין אתרים.");
-  window._planDays = days;
-  window._planF = f;
-  box.innerHTML = `<h3 style="margin:12px 4px 6px">המסלול שלכם — ${days.length} ${days.length === 1 ? "יום" : "ימים"}</h3>` + notes.map(n => `<div class="note">${esc(n)}</div>`).join("") +
-    `<div class="acts" style="margin-bottom:10px;flex-wrap:wrap">
-      <button class="btn" id="planEdit" style="--cc:#3949ab">✏️ ערוך</button>
-      <button class="btn l" id="planSave">💾 שמור באפליקציה</button>
-      <button class="btn l" id="planLoad">📂 טען שמור</button>
-      <button class="btn l" id="planMap">🗺️ מפה</button>
-      <button class="btn l" id="planPdf">🖨️ PDF / הדפסה</button>
-      <button class="btn l" id="planFile">⬇️ קובץ</button>
-      <button class="btn l" id="planShare">📤 שתף</button>
-    </div><div id="planMapBox" style="display:none;margin-bottom:10px"></div>` +
-    days.map((d, i) => {
-      const dt = sd ? new Date(sd.getFullYear(), sd.getMonth(), sd.getDate() + i) : null; const dstr = dt ? dmy(dt) : "";
-      const hs = resolveHotelStation(f.hotel);
-      let how = d.transport || (d.trip ? d.startText : (d.start ? routeText(hs, d.start) : "")); if (!d.transport && !d.trip && hs === d.start) how = "המלון קרוב — אפשר ללכת ברגל";
-      const extra = [];
-      if (dt && dt.getDay() === 0 && d.notSunday) extra.push("ביום ראשון השוק סגור — החליפו עם יום אחר.");
-      if (dt && dt.getDay() === 0 && d.sunday) extra.push("ביום ראשון בשעה 11:00 מתקיים טקס חילופי המשמר המלא.");
-      if (dt && free.includes(dstr) && d.sites && d.sites.length) extra.push("היום ראשון הראשון בחודש (נוב׳–מרץ): כניסה חינם לאתרים הממלכתיים — אבל עמוס מאוד, הגיעו מוקדם.");
-      const wx = wxForDate(dt);
-      const wxHtml = wx ? `<div class="row" style="margin:4px 0"><span class="tag" style="background:#e3f2fd;color:#0d47a1">${wx.ico} ${wx.min}°–${wx.max}° · ${wx.desc}${wx.rain ? " · 🌧 "+wx.rain+"%" : ""}</span></div>` : "";
-      return `<div class="box day" style="--cc:#3949ab" data-di="${i}"><h3><span>יום ${i + 1}: ${esc(d.t)}</span>${dstr ? `<span class="tag p">${dstr}${dt ? " · " + ["ראשון","שני","שלישי","רביעי","חמישי","שישי","שבת"][dt.getDay()] : ""}</span>` : ""}</h3>
-      ${wxHtml}
-      <div class="row"><span class="tag ${d.effort >= 3 ? "r" : d.effort === 2 ? "o" : "g"}">${["", "הליכה קלה", "הליכה בינונית", "הליכה ועליות"][d.effort] || ""}</span>${d.trip ? '<span class="tag p">טיול יום</span>' : ""}</div>
-      ${how ? `<p class="short">🚇 <b>מהמלון:</b> ${esc(how)}</p>` : ""}
-      ${d.slots.filter(s => s[1] !== "—").map(s => `<div class="slot"><b>${s[0]}</b><span>${esc(s[1])}</span></div>`).join("")}
-      ${extra.map(e => `<div class="note">${esc(e)}</div>`).join("")}</div>`; }).join("") +
-    `<p class="note">המסלול הוא הצעה — שעות ומחירים מופיעים בכרטיסי האתרים. בקיץ אפשר להאריך יום; בחורף הערבים מוקדמים (שקיעה בסביבות 17:00). תחזית מזג אוויר מוצגת לימים שבטווח התחזית (כ־7 ימים).</p>` +
-    ((f.docs && f.docs.length) ? `<div class="box" style="--cc:#3949ab"><h3>🔗 קישורים ומסמכים</h3><ul>${f.docs.map(doc => `<li><a href="${esc(doc.url)}" target="_blank" rel="noopener">${esc(doc.desc || doc.url)}</a></li>`).join("")}</ul></div>` : "");
-  // edit / save / load
-  const editBtn = $("#planEdit"), saveBtn = $("#planSave"), loadBtn = $("#planLoad");
-  const mapBtn = $("#planMap"), pdfBtn = $("#planPdf"), fileBtn = $("#planFile"), shareBtn = $("#planShare");
-  if (editBtn) editBtn.onclick = () => editPlanDialog(days, f);
-  if (mapBtn) mapBtn.onclick = () => showPlanOnMap(days, f);
-  if (pdfBtn) pdfBtn.onclick = () => printPlanPdf(days, f);
-  if (fileBtn) fileBtn.onclick = () => downloadPlanFile(days, f);
-  if (shareBtn) shareBtn.onclick = () => sharePlan(days, f);
-  if (saveBtn) saveBtn.onclick = () => {
-    const name = prompt("שם למסלול השמור:", "המסלול שלי " + dmy(new Date()));
-    if (!name) return;
-    const saved = store.get("savedPlans", []);
-    saved.push({ name, f: { ...f, _savedDays: days, docs: f.docs || [] }, days, at: Date.now() });
-    store.set("savedPlans", saved);
-    toast("המסלול נשמר: " + name);
-  };
-  if (loadBtn) loadBtn.onclick = () => {
-    const saved = store.get("savedPlans", []);
-    if (!saved.length) return toast("אין מסלולים שמורים");
-    const dlg = document.createElement("dialog");
-    dlg.innerHTML = `<h3>מסלולים שמורים</h3><div class="picker">` +
-      saved.map((s, i) => `<div class="pitem" data-i="${i}"><span>📂</span><div><b>${esc(s.name)}</b><br><small>${s.days.length} ימים · ${new Date(s.at).toLocaleDateString("he-IL")}</small></div>
-        <button class="btn l" data-del="${i}" style="margin-right:auto;color:#c62828" title="מחק מסלול שמור">🗑️ מחק</button></div>`).join("") +
-      `</div><div class="acts" style="margin-top:8px"><button class="btn l" id="clLoad">סגור</button></div>`;
-    document.body.appendChild(dlg); dlg.showModal();
-    $("#clLoad", dlg).onclick = () => { dlg.close(); dlg.remove(); };
-    $$(".pitem", dlg).forEach(el => {
-      el.onclick = (ev) => {
-        if (ev.target.closest("[data-del]")) return;
-        const s = saved[+el.dataset.i];
-        store.set("plan", s.f);
-        dlg.close(); dlg.remove();
-        showPlan(s.f, s.days);
-        toast("נטען: " + s.name);
-      };
-    });
-    $$("[data-del]", dlg).forEach(b => b.onclick = (ev) => {
-      ev.stopPropagation();
-      if (!confirm("למחוק מסלול זה?")) return;
-      saved.splice(+b.dataset.del, 1);
-      store.set("savedPlans", saved);
-      dlg.close(); dlg.remove();
-      toast("נמחק");
-    });
-  };
-  box.scrollIntoView({ behavior: "smooth", block: "start" });
-}
-
 function planSitesForDay(d) {
-  const ids = d.sites || [];
-  return ids.map(id => SITES.find(s => s.id === id)).filter(Boolean);
+  return (d.sites || []).map(function(id) { return SITES.find(function(s) { return s.id === id; }); }).filter(Boolean);
+}
+function buildPlanLines(days, f) {
+  const sd = parseDmy(f.start);
+  const wd = ["ראשון", "שני", "שלישי", "רביעי", "חמישי", "שישי", "שבת"];
+  const lines = [];
+  lines.push("מסלול אתונה — " + days.length + " ימים");
+  lines.push("יוצר: יעקב זוהר · מדריך אתונה");
+  if (f.start) lines.push("תאריך התחלה: " + f.start);
+  lines.push("");
+  days.forEach(function(d, i) {
+    const dt = sd ? new Date(sd.getFullYear(), sd.getMonth(), sd.getDate() + i) : null;
+    const dstr = dt ? dmy(dt) + " · יום " + wd[dt.getDay()] : "";
+    lines.push("—— יום " + (i + 1) + ": " + d.t + (dstr ? " (" + dstr + ")" : "") + " ——");
+    const wx = wxForDate(dt);
+    if (wx) lines.push("מזג אוויר: " + wx.min + "°–" + wx.max + "° " + wx.desc);
+    if (d.transport) lines.push("תחבורה: " + d.transport);
+    (d.slots || []).filter(function(s) { return s[1] && s[1] !== "—"; }).forEach(function(s) { lines.push(s[0] + ": " + s[1]); });
+    lines.push("");
+  });
+  if (f.docs && f.docs.length) {
+    lines.push("קישורים:");
+    f.docs.forEach(function(doc) { lines.push("- " + (doc.desc || "") + " " + doc.url); });
+  }
+  return lines;
 }
 function showPlanOnMap(days, f) {
   const box = $("#planMapBox");
@@ -1243,227 +1167,271 @@ function showPlanOnMap(days, f) {
     box.style.display = "none"; box.dataset.open = "0"; box.innerHTML = ""; return;
   }
   box.style.display = "block"; box.dataset.open = "1";
-  const colors = ["#c62828","#1565c0","#2e7d32","#f9a825","#6a1b9a","#00838f","#ef6c00","#ad1457","#455a64","#5d4037"];
-  let chips = '<div class="chips" style="margin-bottom:8px">';
-  chips += '<button class="chip on" data-day="all">כל הימים</button>';
-  days.forEach((d, i) => { chips += '<button class="chip" data-day="' + i + '">יום ' + (i + 1) + '</button>'; });
-  chips += '</div><div id="pmap" style="height:360px;border-radius:14px;box-shadow:0 2px 10px rgba(0,0,0,.15)"></div>';
-  chips += '<p class="note">סמנים לפי ימי המסלול. לחצו על יום לסינון. לחצו שוב על ״מפה״ לסגירה.</p>';
+  const colors = ["#c62828", "#1565c0", "#2e7d32", "#f9a825", "#6a1b9a", "#00838f", "#ef6c00", "#ad1457", "#455a64", "#5d4037"];
+  let chips = '<div class="chips" style="margin-bottom:8px"><button class="chip on" data-day="all">כל הימים</button>';
+  days.forEach(function(d, i) { chips += '<button class="chip" data-day="' + i + '">יום ' + (i + 1) + '</button>'; });
+  chips += '</div><div id="pmap" style="height:360px;border-radius:14px"></div><p class="note">לחצו על יום לסינון. לחצו שוב על מפה לסגירה.</p>';
   box.innerHTML = chips;
-  if (typeof L === "undefined") {
-    box.innerHTML += '<p class="note">נדרש חיבור לאינטרנט למפה.</p>';
-    return;
-  }
+  if (typeof L === "undefined") { box.innerHTML += '<p class="note">נדרש אינטרנט למפה.</p>'; return; }
   const map = L.map("pmap").setView([37.9755, 23.73], 13);
   L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", { maxZoom: 19, attribution: "© OSM" }).addTo(map);
   const layers = {};
   const allPts = [];
-  days.forEach((d, i) => {
+  days.forEach(function(d, i) {
     const g = L.layerGroup().addTo(map);
     layers[i] = g;
-    const sites = planSitesForDay(d);
     const latlngs = [];
-    sites.forEach(s => {
+    planSitesForDay(d).forEach(function(s) {
       if (!s.lat) return;
       const ll = [s.lat, s.lng];
       latlngs.push(ll); allPts.push(ll);
       L.circleMarker(ll, { radius: 8, color: "#fff", weight: 2, fillColor: colors[i % colors.length], fillOpacity: 1 })
-        .bindPopup("<b>יום " + (i + 1) + ":</b> " + esc(s.he) + "<br><small>" + esc(s.en) + "</small>")
-        .addTo(g);
+        .bindPopup("<b>יום " + (i + 1) + ":</b> " + esc(s.he)).addTo(g);
     });
-    if (latlngs.length > 1) {
-      L.polyline(latlngs, { color: colors[i % colors.length], weight: 3, opacity: 0.75 }).addTo(g);
-    }
+    if (latlngs.length > 1) L.polyline(latlngs, { color: colors[i % colors.length], weight: 3, opacity: 0.75 }).addTo(g);
   });
   if (allPts.length) map.fitBounds(allPts, { padding: [30, 30] });
-  setTimeout(() => map.invalidateSize(), 200);
-  box.querySelectorAll("[data-day]").forEach(b => {
-    b.onclick = () => {
-      box.querySelectorAll("[data-day]").forEach(x => x.classList.remove("on"));
+  setTimeout(function() { map.invalidateSize(); }, 200);
+  box.querySelectorAll("[data-day]").forEach(function(b) {
+    b.onclick = function() {
+      box.querySelectorAll("[data-day]").forEach(function(x) { x.classList.remove("on"); });
       b.classList.add("on");
       const v = b.getAttribute("data-day");
-      Object.keys(layers).forEach(k => {
-        if (v === "all" || v === k) map.addLayer(layers[k]);
-        else map.removeLayer(layers[k]);
+      Object.keys(layers).forEach(function(k) {
+        if (v === "all" || v === k) map.addLayer(layers[k]); else map.removeLayer(layers[k]);
       });
       const pts = [];
-      const subset = v === "all" ? days : [days[+v]];
-      subset.forEach(d => planSitesForDay(d).forEach(s => { if (s.lat) pts.push([s.lat, s.lng]); }));
+      (v === "all" ? days : [days[+v]]).forEach(function(d) {
+        planSitesForDay(d).forEach(function(s) { if (s.lat) pts.push([s.lat, s.lng]); });
+      });
       if (pts.length) map.fitBounds(pts, { padding: [30, 30] });
     };
   });
-  box.scrollIntoView({ behavior: "smooth", block: "nearest" });
-}
-function buildPlanLines(days, f) {
-  const sd = parseDmy(f.start);
-  const wd = ["ראשון","שני","שלישי","רביעי","חמישי","שישי","שבת"];
-  const lines = [];
-  lines.push("מסלול אתונה — " + days.length + " ימים");
-  lines.push("יוצר: יעקב זוהר · מדריך אתונה");
-  if (f.start) lines.push("תאריך התחלה: " + f.start);
-  lines.push("");
-  days.forEach((d, i) => {
-    const dt = sd ? new Date(sd.getFullYear(), sd.getMonth(), sd.getDate() + i) : null;
-    const dstr = dt ? dmy(dt) + " · יום " + wd[dt.getDay()] : "";
-    lines.push("—— יום " + (i + 1) + ": " + d.t + (dstr ? " (" + dstr + ")" : "") + " ——");
-    const wx = wxForDate(dt);
-    if (wx) lines.push("מזג אוויר: " + wx.min + "°–" + wx.max + "° " + wx.desc);
-    if (d.transport) lines.push("תחבורה: " + d.transport);
-    (d.slots || []).filter(s => s[1] && s[1] !== "—").forEach(s => lines.push(s[0] + ": " + s[1]));
-    lines.push("");
-  });
-  if (f.docs && f.docs.length) {
-    lines.push("קישורים:");
-    f.docs.forEach(doc => lines.push("- " + (doc.desc || "") + " " + doc.url));
-  }
-  return lines;
 }
 function printPlanPdf(days, f) {
   const sd = parseDmy(f.start);
-  const wd = ["ראשון","שני","שלישי","רביעי","חמישי","שישי","שבת"];
-  let body = "<h1 style=\"color:#0d47a1\">מסלול אתונה — " + days.length + " ימים</h1>";
-  body += "<p>יוצר: <b>יעקב זוהר</b>";
+  const wd = ["ראשון", "שני", "שלישי", "רביעי", "חמישי", "שישי", "שבת"];
+  let body = "<h1 style='color:#0d47a1'>מסלול אתונה — " + days.length + " ימים</h1><p>יוצר: <b>יעקב זוהר</b>";
   if (f.start) body += " · התחלה: " + f.start;
   body += "</p>";
-  days.forEach((d, i) => {
+  days.forEach(function(d, i) {
     const dt = sd ? new Date(sd.getFullYear(), sd.getMonth(), sd.getDate() + i) : null;
     const dstr = dt ? dmy(dt) + " · יום " + wd[dt.getDay()] : "";
     const wx = wxForDate(dt);
-    body += "<div style=\"border-right:4px solid #3949ab;padding:8px 12px;margin:12px 0;page-break-inside:avoid\">";
-    body += "<h2 style=\"margin:0 0 6px\">יום " + (i + 1) + ": " + esc(d.t) + "</h2>";
-    if (dstr) body += "<p style=\"margin:0;color:#555\">" + dstr + "</p>";
-    if (wx) body += "<p style=\"margin:4px 0\">" + wx.ico + " " + wx.min + "°–" + wx.max + "° · " + wx.desc + "</p>";
+    body += "<div style='border-right:4px solid #3949ab;padding:8px 12px;margin:12px 0;page-break-inside:avoid'>";
+    body += "<h2>יום " + (i + 1) + ": " + esc(d.t) + "</h2>";
+    if (dstr) body += "<p style='color:#555'>" + dstr + "</p>";
+    if (wx) body += "<p>" + wx.ico + " " + wx.min + "°–" + wx.max + "° · " + wx.desc + "</p>";
     if (d.transport) body += "<p><b>תחבורה:</b> " + esc(d.transport) + "</p>";
-    (d.slots || []).filter(s => s[1] && s[1] !== "—").forEach(s => {
-      body += "<p style=\"margin:4px 0\"><b>" + esc(s[0]) + ":</b> " + esc(s[1]) + "</p>";
+    (d.slots || []).filter(function(s) { return s[1] && s[1] !== "—"; }).forEach(function(s) {
+      body += "<p><b>" + esc(s[0]) + ":</b> " + esc(s[1]) + "</p>";
     });
     body += "</div>";
   });
-  if (f.docs && f.docs.length) {
-    body += "<h3>קישורים</h3><ul>";
-    f.docs.forEach(doc => { body += "<li><a href=\"" + esc(doc.url) + "\">" + esc(doc.desc || doc.url) + "</a></li>"; });
-    body += "</ul>";
-  }
   const w = window.open("", "_blank");
-  if (!w) { toast("אפשרו חלונות קופצים להדפסה"); return; }
-  w.document.write("<!doctype html><html dir=\"rtl\" lang=\"he\"><head><meta charset=\"utf-8\"><title>מסלול אתונה</title>" +
-    "<style>body{font-family:Segoe UI,Arial,sans-serif;padding:24px;color:#1b2a41;max-width:800px;margin:auto} @media print{button{display:none}}</style></head><body>" +
-    body + "<p style=\"margin-top:24px\"><button onclick=\"window.print()\">🖨️ הדפס / שמור PDF</button></p>" +
-    "<script>setTimeout(function(){window.print()},400);</" + "script></body></html>");
+  if (!w) { toast("אפשרו חלונות קופצים"); return; }
+  w.document.write("<!doctype html><html dir='rtl' lang='he'><head><meta charset='utf-8'><title>מסלול אתונה</title><style>body{font-family:Segoe UI,Arial,sans-serif;padding:24px;max-width:800px;margin:auto}@media print{button{display:none}}</style></head><body>" + body + "<p><button onclick='window.print()'>🖨️ הדפס / שמור PDF</button></p></body></html>");
   w.document.close();
+  try { w.focus(); setTimeout(function(){ try{ w.print(); }catch(e){} }, 500); } catch(e) {}
 }
 function downloadPlanFile(days, f) {
-  const lines = buildPlanLines(days, f);
-  const blob = new Blob([lines.join("\n")], { type: "text/plain;charset=utf-8" });
+  const blob = new Blob([buildPlanLines(days, f).join("\n")], { type: "text/plain;charset=utf-8" });
   const a = document.createElement("a");
   a.href = URL.createObjectURL(blob);
   a.download = "athens-plan-" + (f.start || "route").replace(/\//g, "-") + ".txt";
   a.click();
-  setTimeout(() => URL.revokeObjectURL(a.href), 2000);
+  setTimeout(function() { URL.revokeObjectURL(a.href); }, 2000);
   toast("הקובץ ירד");
 }
 async function sharePlan(days, f) {
   const text = buildPlanLines(days, f).join("\n");
   if (navigator.share) {
-    try { await navigator.share({ title: "מסלול אתונה", text: text }); return; }
-    catch (e) { if (e.name === "AbortError") return; }
+    try { await navigator.share({ title: "מסלול אתונה", text: text }); return; } catch (e) { if (e.name === "AbortError") return; }
   }
-  try { await navigator.clipboard.writeText(text); toast("המסלול הועתק ללוח"); }
-  catch (e) { toast("לא ניתן לשתף אוטומטית"); }
+  try { await navigator.clipboard.writeText(text); toast("הועתק ללוח"); } catch (e) { toast("לא ניתן לשתף"); }
 }
-
+function showPlan(f, customDays) {
+  const days = customDays || f._savedDays || buildPlan(f);
+  const sd = parseDmy(f.start), box = $("#plan");
+  if (!box) return;
+  const free = ["01/11/2026", "06/12/2026", "03/01/2027", "07/02/2027", "07/03/2027"];
+  const notes = [];
+  if ((+f.kids) > 0) notes.push("יש ילדים בקבוצה — נבחרו ימים מתאימים יותר.");
+  if (f.mobility === "low" || f.stroller || f.seniors > 0) notes.push("הליכה מוגבלת: העדיפו מטרו/מונית, באקרופוליס יש מעלית.");
+  if (f.pace === "busy") notes.push("קצב אינטנסיבי: התחילו מוקדם.");
+  const wd = ["ראשון", "שני", "שלישי", "רביעי", "חמישי", "שישי", "שבת"];
+  let html = "<h3 style='margin:12px 4px 6px'>המסלול שלכם — " + days.length + " ימים</h3>";
+  notes.forEach(function(n) { html += "<div class='note'>" + esc(n) + "</div>"; });
+  html += "<div class='acts' style='margin-bottom:10px;flex-wrap:wrap'>";
+  html += "<button class='btn' id='planEdit' style='--cc:#3949ab'>✏️ ערוך</button>";
+  html += "<button class='btn l' id='planSave'>💾 שמור</button>";
+  html += "<button class='btn l' id='planLoad'>📂 טען</button>";
+  html += "<button class='btn l' id='planMap'>🗺️ מפה</button>";
+  html += "<button class='btn l' id='planPdf'>🖨️ PDF</button>";
+  html += "<button class='btn l' id='planFile'>⬇️ קובץ</button>";
+  html += "<button class='btn l' id='planShare'>📤 שתף</button></div>";
+  html += "<div id='planMapBox' style='display:none;margin-bottom:10px'></div>";
+  days.forEach(function(d, i) {
+    const dt = sd ? new Date(sd.getFullYear(), sd.getMonth(), sd.getDate() + i) : null;
+    const dstr = dt ? dmy(dt) : "";
+    const hs = resolveHotelStation(f.hotel);
+    let how = d.transport || (d.trip ? d.startText : (d.start ? routeText(hs, d.start) : ""));
+    if (!d.transport && !d.trip && hs === d.start) how = "המלון קרוב — אפשר ללכת ברגל";
+    const extra = [];
+    if (dt && dt.getDay() === 0 && d.notSunday) extra.push("ביום ראשון השוק סגור.");
+    if (dt && dt.getDay() === 0 && d.sunday) extra.push("ראשון 11:00 — טקס חילופי משמר מלא.");
+    if (dt && free.indexOf(dstr) >= 0 && d.sites && d.sites.length) extra.push("יום כניסה חינם לאתרים ממלכתיים — עמוס מאוד.");
+    const wx = wxForDate(dt);
+    html += "<div class='box day' style='--cc:#3949ab'><h3><span>יום " + (i + 1) + ": " + esc(d.t) + "</span>";
+    if (dstr) html += "<span class='tag p'>" + dstr + (dt ? " · " + wd[dt.getDay()] : "") + "</span>";
+    html += "</h3>";
+    if (wx) html += "<div class='row' style='margin:4px 0'><span class='tag' style='background:#e3f2fd;color:#0d47a1'>" + wx.ico + " " + wx.min + "°–" + wx.max + "° · " + wx.desc + (wx.rain ? " · 🌧 " + wx.rain + "%" : "") + "</span></div>";
+    html += "<div class='row'><span class='tag " + (d.effort >= 3 ? "r" : d.effort === 2 ? "o" : "g") + "'>" + ["", "הליכה קלה", "הליכה בינונית", "הליכה ועליות"][d.effort] + "</span>";
+    if (d.trip) html += "<span class='tag p'>טיול יום</span>";
+    html += "</div>";
+    if (how) html += "<p class='short'>🚇 <b>מהמלון:</b> " + esc(how) + "</p>";
+    (d.slots || []).filter(function(s) { return s[1] !== "—"; }).forEach(function(s) {
+      html += "<div class='slot'><b>" + esc(s[0]) + "</b><span>" + esc(s[1]) + "</span></div>";
+    });
+    extra.forEach(function(e) { html += "<div class='note'>" + esc(e) + "</div>"; });
+    html += "</div>";
+  });
+  if (f.docs && f.docs.length) {
+    html += "<div class='box' style='--cc:#3949ab'><h3>🔗 קישורים ומסמכים</h3><ul>";
+    f.docs.forEach(function(doc) { html += "<li><a href='" + esc(doc.url) + "' target='_blank' rel='noopener'>" + esc(doc.desc || doc.url) + "</a></li>"; });
+    html += "</ul></div>";
+  }
+  html += "<p class='note'>המסלול הוא הצעה. תחזית מוצגת לימים שבטווח ~7 ימים.</p>";
+  box.innerHTML = html;
+  const editBtn = $("#planEdit"), saveBtn = $("#planSave"), loadBtn = $("#planLoad");
+  if (editBtn) editBtn.onclick = function() { editPlanDialog(days, f); };
+  if ($("#planMap")) $("#planMap").onclick = function() { showPlanOnMap(days, f); };
+  if ($("#planPdf")) $("#planPdf").onclick = function() { printPlanPdf(days, f); };
+  if ($("#planFile")) $("#planFile").onclick = function() { downloadPlanFile(days, f); };
+  if ($("#planShare")) $("#planShare").onclick = function() { sharePlan(days, f); };
+  if (saveBtn) saveBtn.onclick = function() {
+    const name = prompt("שם למסלול:", "המסלול שלי " + dmy(new Date()));
+    if (!name) return;
+    const saved = store.get("savedPlans", []);
+    saved.push({ name: name, f: Object.assign({}, f, { _savedDays: days, docs: f.docs || [] }), days: days, at: Date.now() });
+    store.set("savedPlans", saved);
+    toast("נשמר: " + name);
+  };
+  if (loadBtn) loadBtn.onclick = function() {
+    const saved = store.get("savedPlans", []);
+    if (!saved.length) return toast("אין מסלולים שמורים");
+    const dlg = document.createElement("dialog");
+    let list = "<h3>מסלולים שמורים</h3><div class='picker'>";
+    saved.forEach(function(s, i) {
+      list += "<div class='pitem' data-i='" + i + "'><span>📂</span><div style='flex:1'><b>" + esc(s.name) + "</b><br><small>" + s.days.length + " ימים · " + new Date(s.at).toLocaleDateString("he-IL") + "</small></div>";
+      list += "<button class='btn l' data-del='" + i + "' style='color:#c62828'>🗑️ מחק</button></div>";
+    });
+    list += "</div><div class='acts' style='margin-top:8px'><button class='btn l' id='clLoad'>סגור</button></div>";
+    dlg.innerHTML = list;
+    document.body.appendChild(dlg); dlg.showModal();
+    $("#clLoad", dlg).onclick = function() { dlg.close(); dlg.remove(); };
+    $$(".pitem", dlg).forEach(function(el) {
+      el.onclick = function(ev) {
+        if (ev.target.closest("[data-del]")) return;
+        const s = saved[+el.dataset.i];
+        store.set("plan", s.f);
+        dlg.close(); dlg.remove();
+        showPlan(s.f, s.days);
+        toast("נטען: " + s.name);
+      };
+    });
+    $$("[data-del]", dlg).forEach(function(b) {
+      b.onclick = function(ev) {
+        ev.stopPropagation();
+        if (!confirm("למחוק מסלול זה?")) return;
+        saved.splice(+b.dataset.del, 1);
+        store.set("savedPlans", saved);
+        dlg.close(); dlg.remove();
+        toast("נמחק");
+      };
+    });
+  };
+  box.scrollIntoView({ behavior: "smooth", block: "start" });
+}
 function editPlanDialog(days, f) {
   const dlg = document.createElement("dialog");
   dlg.style.cssText = "width:min(560px,96vw);max-height:90vh;overflow:auto";
-  const opts = DAYS.map(d => "<option value=\"" + d.id + "\">" + esc(d.t) + "</option>").join("");
-  const stationOpts = Object.keys(ST).sort((a,b) => ST[a][1].localeCompare(ST[b][1], "he"))
-    .map(k => "<option value=\"" + k + "\">" + ST[k][1] + " — " + ST[k][0] + "</option>").join("");
+  const opts = DAYS.map(function(d) { return '<option value="' + d.id + '">' + esc(d.t) + '</option>'; }).join("");
+  const stationOpts = Object.keys(ST).sort(function(a, b) { return ST[a][1].localeCompare(ST[b][1], "he"); })
+    .map(function(k) { return '<option value="' + k + '">' + ST[k][1] + " — " + ST[k][0] + '</option>'; }).join("");
   const docs = (f.docs || []).slice();
-
   function docsHtml() {
-    if (!docs.length) return "<p class=\"short\">אין קישורים עדיין</p>";
-    return docs.map((doc, i) =>
-      "<div class=\"row\" style=\"margin:4px 0;align-items:center;gap:6px\" data-doc-row=\"" + i + "\">" +
-      "<input data-doc-url=\"" + i + "\" value=\"" + esc(doc.url || "") + "\" placeholder=\"https://...\" style=\"flex:2;padding:6px;border-radius:8px;border:1.5px solid #cfe0f5\">" +
-      "<input data-doc-desc=\"" + i + "\" value=\"" + esc(doc.desc || "") + "\" placeholder=\"תיאור\" style=\"flex:1;padding:6px;border-radius:8px;border:1.5px solid #cfe0f5\">" +
-      "<button type=\"button\" class=\"btn l\" data-doc-del=\"" + i + "\">🗑️</button></div>"
-    ).join("");
+    if (!docs.length) return '<p class="short">אין קישורים עדיין</p>';
+    return docs.map(function(doc, i) {
+      return '<div class="row" style="margin:4px 0;align-items:center;gap:6px">' +
+        '<input data-doc-url="' + i + '" value="' + esc(doc.url || "") + '" placeholder="https://..." style="flex:2;padding:6px;border-radius:8px;border:1.5px solid #cfe0f5">' +
+        '<input data-doc-desc="' + i + '" value="' + esc(doc.desc || "") + '" placeholder="תיאור" style="flex:1;padding:6px;border-radius:8px;border:1.5px solid #cfe0f5">' +
+        '<button type="button" class="btn l" data-doc-del="' + i + '">🗑️</button></div>';
+    }).join("");
   }
-
   let daysHtml = "";
-  days.forEach((d, i) => {
+  days.forEach(function(d, i) {
     const transport = d.transport || (d.trip ? (d.startText || "") : (d.start ? routeText(resolveHotelStation(f.hotel), d.start) : ""));
-    const s0 = (d.slots[0] && d.slots[0][1]) || "";
-    const s1 = (d.slots[1] && d.slots[1][1]) || "";
-    const s2 = (d.slots[2] && d.slots[2][1]) || "";
-    const s3 = (d.slots[3] && d.slots[3][1]) || "";
-    daysHtml += "<div class=\"box\" style=\"--cc:#3949ab;margin:8px 0\"><label><b>יום " + (i + 1) + "</b></label>" +
-      "<input type=\"text\" data-title=\"" + i + "\" value=\"" + esc(d.t) + "\" style=\"width:100%;margin:4px 0;padding:8px;border-radius:8px;border:1.5px solid #cfe0f5\">" +
-      "<label>החלף מתבנית:</label>" +
-      "<select data-swap=\"" + i + "\" style=\"width:100%;margin:4px 0;padding:8px;border-radius:8px\"><option value=\"\">— השאר נוכחי —</option>" + opts + "</select>" +
-      "<label>🚇 תחבורה (מיציאה ליעד)</label>" +
-      "<div style=\"display:grid;grid-template-columns:1fr 1fr;gap:6px;margin:4px 0\">" +
-      "<div><label style=\"font-size:12px\">מתחנה</label><select data-from=\"" + i + "\" style=\"width:100%;padding:6px;border-radius:8px\"><option value=\"\">—</option>" + stationOpts + "</select></div>" +
-      "<div><label style=\"font-size:12px\">לתחנה</label><select data-to=\"" + i + "\" style=\"width:100%;padding:6px;border-radius:8px\"><option value=\"\">—</option>" + stationOpts + "</select></div></div>" +
-      "<textarea data-transport=\"" + i + "\" rows=\"2\" placeholder=\"תיאור תחבורה\" style=\"width:100%;padding:6px;border-radius:8px;border:1.5px solid #cfe0f5;margin:4px 0\">" + esc(transport) + "</textarea>" +
-      "<label>בוקר</label><textarea data-slot=\"" + i + "-0\" rows=\"2\" style=\"width:100%;padding:6px;border-radius:8px;border:1.5px solid #cfe0f5\">" + esc(s0) + "</textarea>" +
-      "<label>צהריים</label><textarea data-slot=\"" + i + "-1\" rows=\"2\" style=\"width:100%;padding:6px;border-radius:8px;border:1.5px solid #cfe0f5\">" + esc(s1) + "</textarea>" +
-      "<label>אחה״צ</label><textarea data-slot=\"" + i + "-2\" rows=\"2\" style=\"width:100%;padding:6px;border-radius:8px;border:1.5px solid #cfe0f5\">" + esc(s2) + "</textarea>" +
-      "<label>ערב</label><textarea data-slot=\"" + i + "-3\" rows=\"2\" style=\"width:100%;padding:6px;border-radius:8px;border:1.5px solid #cfe0f5\">" + esc(s3) + "</textarea></div>";
+    const slots = [0, 1, 2, 3].map(function(s) { return (d.slots && d.slots[s] && d.slots[s][1]) || ""; });
+    const labels = ["בוקר", "צהריים", "אחה״צ", "ערב"];
+    daysHtml += '<div class="box" style="--cc:#3949ab;margin:8px 0"><label><b>יום ' + (i + 1) + '</b></label>';
+    daysHtml += '<input type="text" data-title="' + i + '" value="' + esc(d.t) + '" style="width:100%;margin:4px 0;padding:8px;border-radius:8px;border:1.5px solid #cfe0f5">';
+    daysHtml += '<label>החלף מתבנית:</label><select data-swap="' + i + '" style="width:100%;margin:4px 0;padding:8px;border-radius:8px"><option value="">— השאר —</option>' + opts + '</select>';
+    daysHtml += '<label>🚇 תחבורה</label><div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;margin:4px 0">';
+    daysHtml += '<div><label style="font-size:12px">מתחנה</label><select data-from="' + i + '" style="width:100%;padding:6px;border-radius:8px"><option value="">—</option>' + stationOpts + '</select></div>';
+    daysHtml += '<div><label style="font-size:12px">לתחנה</label><select data-to="' + i + '" style="width:100%;padding:6px;border-radius:8px"><option value="">—</option>' + stationOpts + '</select></div></div>';
+    daysHtml += '<textarea data-transport="' + i + '" rows="2" style="width:100%;padding:6px;border-radius:8px;border:1.5px solid #cfe0f5;margin:4px 0">' + esc(transport) + '</textarea>';
+    labels.forEach(function(lab, s) {
+      daysHtml += '<label>' + lab + '</label><textarea data-slot="' + i + '-' + s + '" rows="2" style="width:100%;padding:6px;border-radius:8px;border:1.5px solid #cfe0f5">' + esc(slots[s]) + '</textarea>';
+    });
+    daysHtml += '</div>';
   });
-
-  dlg.innerHTML = "<h3>✏️ עריכת מסלול</h3><p class=\"short\">שנו כותרת, תחבורה, שעות וקישורים.</p>" +
-    "<div class=\"box\" style=\"--cc:#3949ab\"><h3>🔗 קישורים ומסמכים</h3><div id=\"docsList\">" + docsHtml() + "</div>" +
-    "<button type=\"button\" class=\"btn l\" id=\"addDoc\">➕ הוסף קישור</button></div>" + daysHtml +
-    "<div class=\"acts\"><button class=\"btn\" id=\"edOk\" style=\"--cc:#3949ab\">שמור שינויים</button>" +
-    "<button class=\"btn l\" id=\"edNo\">ביטול</button></div>";
-  document.body.appendChild(dlg);
-  dlg.showModal();
-
-  days.forEach((d, i) => {
-    const fromSel = dlg.querySelector("[data-from=\"" + i + "\"]");
-    const toSel = dlg.querySelector("[data-to=\"" + i + "\"]");
-    const ta = dlg.querySelector("[data-transport=\"" + i + "\"]");
-    const upd = () => { if (fromSel.value && toSel.value) ta.value = routeText(fromSel.value, toSel.value) || ta.value; };
+  dlg.innerHTML = '<h3>✏️ עריכת מסלול</h3><p class="short">כותרת, תחבורה, שעות וקישורים.</p>' +
+    '<div class="box" style="--cc:#3949ab"><h3>🔗 קישורים</h3><div id="docsList">' + docsHtml() + '</div>' +
+    '<button type="button" class="btn l" id="addDoc">➕ הוסף קישור</button></div>' + daysHtml +
+    '<div class="acts"><button class="btn" id="edOk" style="--cc:#3949ab">שמור שינויים</button><button class="btn l" id="edNo">ביטול</button></div>';
+  document.body.appendChild(dlg); dlg.showModal();
+  days.forEach(function(d, i) {
+    const fromSel = dlg.querySelector('[data-from="' + i + '"]');
+    const toSel = dlg.querySelector('[data-to="' + i + '"]');
+    const ta = dlg.querySelector('[data-transport="' + i + '"]');
+    function upd() { if (fromSel.value && toSel.value) ta.value = routeText(fromSel.value, toSel.value) || ta.value; }
     fromSel.onchange = toSel.onchange = upd;
   });
-
   function bindDocDel() {
-    dlg.querySelectorAll("[data-doc-del]").forEach(b => {
-      b.onclick = () => {
-        const i = +b.getAttribute("data-doc-del");
-        docs.splice(i, 1);
+    dlg.querySelectorAll("[data-doc-del]").forEach(function(b) {
+      b.onclick = function() {
+        docs.splice(+b.getAttribute("data-doc-del"), 1);
         dlg.querySelector("#docsList").innerHTML = docsHtml();
         bindDocDel();
       };
     });
   }
   bindDocDel();
-  dlg.querySelector("#addDoc").onclick = () => {
+  dlg.querySelector("#addDoc").onclick = function() {
     docs.push({ url: "", desc: "" });
     dlg.querySelector("#docsList").innerHTML = docsHtml();
     bindDocDel();
   };
-  dlg.querySelector("#edNo").onclick = () => { dlg.close(); dlg.remove(); };
-  dlg.querySelector("#edOk").onclick = () => {
+  dlg.querySelector("#edNo").onclick = function() { dlg.close(); dlg.remove(); };
+  dlg.querySelector("#edOk").onclick = function() {
     const newDocs = [];
-    dlg.querySelectorAll("[data-doc-url]").forEach(inp => {
+    dlg.querySelectorAll("[data-doc-url]").forEach(function(inp) {
       const url = inp.value.trim();
       if (!url) return;
-      const i = inp.getAttribute("data-doc-url");
-      const descInp = dlg.querySelector("[data-doc-desc=\"" + i + "\"]");
+      const descInp = dlg.querySelector('[data-doc-desc="' + inp.getAttribute("data-doc-url") + '"]');
       newDocs.push({ url: url, desc: (descInp && descInp.value.trim()) || url });
     });
     f.docs = newDocs;
     const labels = ["בוקר", "צהריים", "אחה״צ", "ערב"];
-    const out = days.map((d, i) => {
-      const swapId = dlg.querySelector("[data-swap=\"" + i + "\"]").value;
-      let base = swapId ? Object.assign({}, DAYS.find(x => x.id === swapId) || d) : Object.assign({}, d);
-      base.slots = (base.slots || []).map(s => s.slice());
-      base.t = dlg.querySelector("[data-title=\"" + i + "\"]").value.trim() || base.t;
-      base.transport = dlg.querySelector("[data-transport=\"" + i + "\"]").value.trim();
+    const out = days.map(function(d, i) {
+      const swapId = dlg.querySelector('[data-swap="' + i + '"]').value;
+      let base = swapId ? Object.assign({}, DAYS.find(function(x) { return x.id === swapId; }) || d) : Object.assign({}, d);
+      base.slots = (base.slots || []).map(function(s) { return s.slice(); });
+      base.t = dlg.querySelector('[data-title="' + i + '"]').value.trim() || base.t;
+      base.transport = dlg.querySelector('[data-transport="' + i + '"]').value.trim();
       for (let s = 0; s < 4; s++) {
-        const ta = dlg.querySelector("[data-slot=\"" + i + "-" + s + "\"]");
+        const ta = dlg.querySelector('[data-slot="' + i + '-' + s + '"]');
         if (!ta) continue;
         if (base.slots[s]) base.slots[s][1] = ta.value;
         else if (ta.value) {
@@ -1482,63 +1450,136 @@ function editPlanDialog(days, f) {
 }
 
 
-/* ===== מופע יחיד – אם כבר פתוח, ממקדים אותו ===== */
-(function singleInstance() {
+/* ===== אירועים ===== */
+function renderEvents(el, soft) {
+  const types = [...new Set(EVENTS.map(e => e.type))];
+  if (!soft) el.innerHTML = hero("אירועי תרבות, קונצרטים וספורט", "הופעות ואירועים קרובים באתונה — ולוחות משחקים באתרי הקבוצות.") + `<div class="fbar">${searchBox("events", "חיפוש אירוע")}${chipRow("events", "type", types.map(t => [t, t]))}</div><div id="lst"></div>
+    <div class="box" style="--cc:#ad1457"><h3>רכישת כרטיסים</h3><div class="row">${EVENT_LINKS.map(l => `<a class="btn" style="--cc:#ad1457" target="_blank" rel="noopener" href="${l.web}">🎟️ ${esc(l.he)}</a>`).join("")}</div></div>
+    <div class="box" style="--cc:#ad1457"><h3>ספורט — משחקי הבית</h3><div class="row">${SPORT_LINKS.map(l => `<a class="btn" style="--cc:#ad1457" target="_blank" rel="noopener" href="${l.web}">⚽🏀 ${esc(l.he)} — ${esc(l.note)}</a>`).join("")}</div><p class="note">אין כאן תאריכי משחקים — בדקו בלוח הקבוצות לפני ההגעה.</p></div><p class="note">${EVENT_NOTE}</p>`;
+  const q = fget("events", "q", "").trim().toLowerCase(), ty = fget("events", "type", []), now = new Date(); now.setHours(0, 0, 0, 0);
+  const list = EVENTS.map(e => ({ ...e, dt: parseDmy(e.d) })).filter(e => e.dt >= now && (!q || (e.t + e.venue).toLowerCase().includes(q)) && (!ty.length || ty.includes(e.type))).sort((a, b) => a.dt - b.dt);
+  $("#lst").innerHTML = list.map(e => `<div class="box" style="--cc:#ad1457"><div class="row"><span class="tag p">${e.d}</span>${e.h ? `<span class="tag">${e.h}</span>` : ""}<span class="tag o">${esc(e.type)}</span></div><h3 style="margin-top:6px">${esc(e.t)}</h3><p class="short">📍 ${esc(e.venue)}</p></div>`).join("") || "<p>אין אירועים שנמצאו בתאריכים הקרובים.</p>";
+  if (!soft) bindFilters(el, () => renderEvents($("#view"), true));
+}
+
+/* ===== מידע ומזג אוויר ===== */
+let WX = store.get("wx", null);
+async function loadWeather() {
+  try {
+    const r = await fetch("https://api.open-meteo.com/v1/forecast?latitude=37.98&longitude=23.73&current=temperature_2m,apparent_temperature,weather_code,wind_speed_10m,relative_humidity_2m&daily=weather_code,temperature_2m_max,temperature_2m_min,precipitation_probability_max,sunrise,sunset&timezone=Europe%2FAthens&forecast_days=7");
+    if (!r.ok) throw 0; WX = await r.json(); WX._t = Date.now(); store.set("wx", WX); updateWxStrip(); return true;
+  } catch (e) { return false; }
+}
+function updateWxStrip() {
+  const nowEl = document.getElementById("wxnow"), daysEl = document.getElementById("wxdays");
+  if (!nowEl || !daysEl) return;
+  if (!WX || !WX.current) { nowEl.innerHTML = "<span>🌡️</span> <b>—</b> <span>אין תחזית</span>"; return; }
+  const c = WX.current, o = wxo(c.weather_code), dn = ["א׳", "ב׳", "ג׳", "ד׳", "ה׳", "ו׳", "ש׳"];
+  nowEl.innerHTML = "<span>" + o[0] + "</span> <b>" + Math.round(c.temperature_2m) + "°</b> <span>" + o[1] + " · מורגש " + Math.round(c.apparent_temperature) + "°</span>";
+  daysEl.innerHTML = WX.daily.time.slice(0, 5).map(function(t, i) {
+    const d = new Date(t + "T12:00:00"), oo = wxo(WX.daily.weather_code[i]);
+    return '<div class="d"><span>' + (i === 0 ? "היום" : dn[d.getDay()]) + '</span><b>' + Math.round(WX.daily.temperature_2m_max[i]) + '°</b><small>' + oo[0] + '</small></div>';
+  }).join("");
+}
+
+const wxo = c => WMO[c] || WMO[Math.floor(c / 10) * 10] || ["🌡️", "—"];
+function renderInfo(el) {
+  el.innerHTML = hero("מידע לתייר ומזג אוויר", "תחזית לאתונה להיום ולימים הבאים, ועובדות שימושיות.") + `<div id="wxbox"></div><div class="box" style="--cc:#0288d1"><h3>🕒 השעה באתונה</h3><p id="clock" class="pr" style="font-size:22px"></p></div>
+  <div class="box" style="--cc:#0288d1"><h3>עובדות שימושיות</h3>${dl(INFO_FACTS)}</div><div class="box" style="--cc:#0288d1"><h3>חיוג חירום</h3><p>112 (חירום כללי) · 100 משטרה · 166 אמבולנס · 199 כיבוי · 1571 משטרת תיירים</p></div>`;
+  const draw = () => {
+    const b = $("#wxbox"); if (!b) return; if (!WX || !WX.current) { b.innerHTML = '<p class="note">אין חיבור לאינטרנט — לא ניתן להציג תחזית. לחצו על ״ריענון״ כשיש חיבור.</p>'; return; }
+    const c = WX.current, o = wxo(c.weather_code), dn = ["א׳", "ב׳", "ג׳", "ד׳", "ה׳", "ו׳", "ש׳"];
+    b.innerHTML = `<div class="nowwx"><span class="big">${o[0]}</span><div><b>${Math.round(c.temperature_2m)}°C</b><div>${o[1]} · מורגש ${Math.round(c.apparent_temperature)}°</div><div>רוח ${Math.round(c.wind_speed_10m)} קמ״ש · לחות ${c.relative_humidity_2m}%</div></div></div>
+     <div class="wx">${WX.daily.time.map((t, i) => { const d = new Date(t + "T12:00:00"), oo = wxo(WX.daily.weather_code[i]); return `<div class="wd"><div>${i === 0 ? "היום" : "יום " + dn[d.getDay()]}<br><small>${dmy(d).slice(0, 5)}</small></div><div class="big">${oo[0]}</div><b>${Math.round(WX.daily.temperature_2m_max[i])}°</b><div>${Math.round(WX.daily.temperature_2m_min[i])}°</div><small>🌧 ${WX.daily.precipitation_probability_max[i] ?? 0}%</small></div>`; }).join("")}</div>
+     <p class="note">זריחה ${WX.daily.sunrise[0].slice(11)} · שקיעה ${WX.daily.sunset[0].slice(11)} · מקור: Open-Meteo. עודכן ${new Date(WX._t).toLocaleTimeString("he-IL", { hour: "2-digit", minute: "2-digit" })}</p>`;
+  };
+  draw(); if (!WX || Date.now() - WX._t > 3600e3) loadWeather().then(draw);
+  const clk = () => { const c = $("#clock"); if (c) c.textContent = new Date().toLocaleTimeString("he-IL", { timeZone: "Europe/Athens", hour: "2-digit", minute: "2-digit" }); }; clk();
+  clearInterval(window._clk); window._clk = setInterval(clk, 15000);
+}
+
+/* ===== ניווט ===== */
+const RENDER = { map: renderMap, sites: el => renderSites(el, false), hotels: el => renderHotels(el, false), transport: renderTransport, rest: el => renderRest(el, false), food: el => renderFood(el, false), shop: renderShop, markets: el => renderMarkets(el, false), tips: renderTips, routes: renderRoutes, events: el => renderEvents(el, false), info: renderInfo };
+function show(id) {
+  cur = id; store.set("tab", id);
+  $$(".tab").forEach(b => b.classList.toggle("on", b.dataset.t === id));
+  const t = TABS.find(x => x.id === id); document.documentElement.style.setProperty("--cc", t.c);
+  const v = $("#view"); v.innerHTML = ""; v.style.setProperty("--cc", t.c);
+  RENDER[id](v); window.scrollTo({ top: 0 });
+  const on = $(".tab.on"); on && on.scrollIntoView({ inline: "center", block: "nearest" });
+}
+async function refreshAll() {
+  const b = $("#refresh"); b.classList.add("spin"); IMG = {}; store.set("img", {});
+  const ok = await loadWeather();
+  try { const reg = await navigator.serviceWorker?.getRegistration(); reg && reg.update(); } catch (e) { }
+  b.classList.remove("spin"); show(cur);
+  toast(ok ? "עודכן ב-" + dmy(new Date()) + " " + new Date().toLocaleTimeString("he-IL", { hour: "2-digit", minute: "2-digit" }) + " — מזג אוויר ותמונות. מחירים ושעות: אמתו באתר הרשמי." : "אין חיבור לאינטרנט — מוצג המידע השמור.", 4200);
+}
+
+(function() {
   try {
     const bc = new BroadcastChannel("athens-guide-lock");
     const myId = Math.random().toString(36).slice(2);
-    let isPrimary = true;
     bc.postMessage({ type: "ping", id: myId });
-    bc.onmessage = (ev) => {
+    bc.onmessage = function(ev) {
       const m = ev.data || {};
-      if (m.type === "ping" && m.id !== myId) {
-        // another instance is asking – reply that we exist
-        bc.postMessage({ type: "pong", id: myId });
-      }
-      if (m.type === "pong" && m.id !== myId) {
-        // someone else is already open – ask them to focus, we can stay or close
-      }
+      if (m.type === "ping" && m.id !== myId) bc.postMessage({ type: "pong", id: myId });
       if (m.type === "focus-request") {
         try { window.focus(); } catch (e) {}
-        // flash title
         const t = document.title;
         document.title = "★ אתונה – כבר פתוח";
-        setTimeout(() => document.title = t, 1500);
-        if (navigator.serviceWorker && navigator.serviceWorker.controller) {
-          // no-op, focus is enough
-        }
+        setTimeout(function() { document.title = t; }, 1500);
       }
     };
-    // On load, ask others to report; if we get pong quickly, request focus on them
-    let gotPong = false;
-    const onPong = (ev) => {
+    setTimeout(function() {
+      bc.postMessage({ type: "ping", id: myId });
+    }, 100);
+    bc.addEventListener("message", function(ev) {
       if (ev.data && ev.data.type === "pong" && ev.data.id !== myId) {
-        gotPong = true;
         bc.postMessage({ type: "focus-request" });
       }
-    };
-    bc.addEventListener("message", onPong);
-    setTimeout(() => bc.removeEventListener("message", onPong), 800);
-    // Also handle pageshow from BFCache / launch
-    window.addEventListener("pageshow", () => { try { window.focus(); } catch (e) {} });
-  } catch (e) { /* BroadcastChannel not available */ }
+    });
+  } catch (e) {}
 })();
-
+function whatToDoToday() {
+  const d = new Date();
+  const day = d.getDay();
+  let html = "<h3>💡 מה עושים היום — " + dmy(d) + "</h3>";
+  if (WX && WX.current) {
+    const o = wxo(WX.current.weather_code);
+    html += "<p class='short'>" + o[0] + " <b>" + Math.round(WX.current.temperature_2m) + "°C</b> — " + o[1] + ".</p>";
+  }
+  const recs = [];
+  if (day === 0) recs.push("יום ראשון: טקס חילופי המשמר בסינטגמה ב-11:00. שוק ורבקיוס סגור.");
+  recs.push("בוקר: אקרופוליס (הזמנת כרטיס מראש ב-tickets.hh.gr/en).");
+  recs.push("צהריים: מוזיאון האקרופוליס או ארוחה בפלאקה.");
+  recs.push("אחה״צ: ליקאבטוס / פילופאפוס לשקיעה.");
+  recs.push("ערב: טברנה בפסירי או פלאקה.");
+  html += "<ul style='line-height:1.8'>" + recs.map(function(r) { return "<li>" + esc(r) + "</li>"; }).join("") + "</ul>";
+  html += "<div class='acts'><button class='btn' id='goRoutes' style='--cc:#3949ab'>🧭 למסלולים</button><button class='btn l' id='goSites'>🏛️ לאתרים</button><button class='btn l' id='closeTd'>סגור</button></div>";
+  const dlg = document.createElement("dialog");
+  dlg.innerHTML = html;
+  document.body.appendChild(dlg); dlg.showModal();
+  $("#closeTd", dlg).onclick = function() { dlg.close(); dlg.remove(); };
+  const gr = $("#goRoutes", dlg); if (gr) gr.onclick = function() { dlg.close(); dlg.remove(); show("routes"); };
+  const gs = $("#goSites", dlg); if (gs) gs.onclick = function() { dlg.close(); dlg.remove(); show("sites"); };
+}
 function init() {
-  $("#tabs").innerHTML = TABS.map(t => `<button class="tab" data-t="${t.id}" style="--tc:${t.c}"><span>${t.i}</span>${t.t}</button>`).join("");
-  $$(".tab").forEach(b => b.onclick = () => show(b.dataset.t));
+  $("#tabs").innerHTML = TABS.map(function(t) { return '<button class="tab" data-t="' + t.id + '" style="--tc:' + t.c + '"><span>' + t.i + '</span>' + t.t + '</button>'; }).join("");
+  $$(".tab").forEach(function(b) { b.onclick = function() { show(b.dataset.t); }; });
   $("#refresh").onclick = refreshAll;
   $("#ver").textContent = APP_VERSION;
-  const wt = document.getElementById("whatToday"); if (wt) wt.onclick = whatToDoToday;
-  if (!TABS.some(t => t.id === cur)) cur = "map";
-  // weather strip
+  const wt = document.getElementById("whatToday");
+  if (wt) wt.onclick = whatToDoToday;
+  if (!TABS.some(function(t) { return t.id === cur; })) cur = "map";
   if (WX) updateWxStrip();
   loadWeather().then(updateWxStrip);
   show(cur);
-  if ("serviceWorker" in navigator && (location.protocol.startsWith("http") || location.hostname === "localhost")) {
-    navigator.serviceWorker.register("sw.js").catch(() => {});
+  if ("serviceWorker" in navigator && (location.protocol.indexOf("http") === 0)) {
+    navigator.serviceWorker.register("sw.js").catch(function() {});
   }
 }
+
 document.addEventListener("DOMContentLoaded", init);
 
 </script>

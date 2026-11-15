@@ -1,5 +1,5 @@
 /* Athens Guide PWA Service Worker – offline shell */
-const CACHE = "athens-guide-v20261115-02";
+const CACHE = "athens-guide-v20261115-03";
 const ASSETS = [
   "./",
   "./index.html",
