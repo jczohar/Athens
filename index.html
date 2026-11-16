@@ -134,6 +134,12 @@ dialog::backdrop{background:rgba(0,0,0,.5)}
   .tabs::-webkit-scrollbar-thumb:hover{background:#64b5f6}
 }
 
+
+.ustars{display:inline-flex;gap:2px;direction:ltr}
+.ustars button{border:0;background:transparent;font-size:18px;cursor:pointer;padding:0 1px;line-height:1;opacity:.45}
+.ustars button.on{opacity:1}
+.unote{width:100%;min-height:48px;padding:8px;border-radius:10px;border:1.5px solid #cfe0f5;font:inherit;resize:vertical}
+.userbar{margin-top:6px;padding-top:6px;border-top:1px dashed #dbe8f8}
 </style>
 </head>
 <body>
@@ -154,7 +160,7 @@ dialog::backdrop{background:rgba(0,0,0,.5)}
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <script>
 /* מדריך אתונה — נתונים מעודכנים. גרסה 20261113-02 — מדריך מקיף לכל העונות */
-const APP_VERSION = "20261115-03";
+const APP_VERSION = "20261116-01";
 const FREE_DAYS_NOTE = "חינם לכל המבקרים (אתרים ממלכתיים): 6 במרץ, 18 באפריל, 18 במאי, סוף השבוע האחרון של ספטמבר, 28 באוקטובר, וכן הראשון והשלישי בכל חודש מנובמבר עד מרץ. בימי חינם תורים ארוכים מאוד — הגיעו מוקדם. כרטיס חינם עדיין דורש הזמנת חלון זמן באתר הרשמי.";
 const CLOSED_NOTE = "אתרים ארכיאולוגיים סגורים בדרך כלל: 1 בינואר, 25 במרץ, 1 במאי, חג הפסחא האורתודוקסי, 25–26 בדצמבר. אמתו תמיד באתר הרשמי.";
 
@@ -533,7 +539,7 @@ const GETTING_AROUND = [
 const WMO = { 0: ["☀️", "שמיים בהירים"], 1: ["🌤️", "בהיר ברובו"], 2: ["⛅", "מעונן חלקית"], 3: ["☁️", "מעונן"], 45: ["🌫️", "ערפל"], 48: ["🌫️", "ערפל"], 51: ["🌦️", "טפטוף קל"], 53: ["🌦️", "טפטוף"], 55: ["🌦️", "טפטוף חזק"], 61: ["🌧️", "גשם קל"], 63: ["🌧️", "גשם"], 65: ["🌧️", "גשם חזק"], 71: ["🌨️", "שלג קל"], 80: ["🌦️", "ממטרים"], 81: ["🌧️", "ממטרים חזקים"], 82: ["⛈️", "ממטרים עזים"], 95: ["⛈️", "סופת רעמים"], 96: ["⛈️", "סופת רעמים וברד"], 99: ["⛈️", "סופת רעמים וברד"] };
 
 const INFO_FACTS = [
-  ["מדינה", "יוון (אתונה — בירה)"], ["שפה", "יוונית; אנגלית מדוברת בהרחבה באזורי תיירות"], ["מטבע", "אירו (€)"], ["שעון", "כמו בישראל (UTC+2 בחורף, UTC+3 בקיץ), למעט ימים בודדים באביב — בדקו"],
+  ["מדינה", "יוון (אתונה — בירה)"], ["שפה", "יוונית; אנגלית מדוברת בהרחבה באזורי תיירות"], ["מטבע", "אירו (€) · שער מול שקל בטיפים / ריענון"], ["שעון", "כמו בישראל (UTC+2 בחורף, UTC+3 בקיץ), למעט ימים בודדים באביב — בדקו"],
   ["חשמל", "230V, תקע אירופאי C/F"], ["טלפון", "קידומת בין-לאומית +30"], ["מים", "מי ברז בטוחים לשתייה"], ["מיסוי/החזר מע״מ", "זכאות למבקרים מחוץ לאיחוד — מעל כ-€50 בחנות"],
   ["נהיגה", "בצד ימין של הכביש. חגורת בטיחות חובה. בדקו מול חברת ההשכרה אם נדרש רישיון בינלאומי"], ["סים/אינטרנט", "eSIM זמין בכמה חברות; wifi חינם בהרבה בתי קפה ובתחנות מטרו"]
 ];
@@ -575,6 +581,129 @@ const FAV = new Set(store.get("fav", []));
 const HID = new Set(store.get("hid", []));
 let CUSTOM = store.get("custom", []);
 const F = store.get("filters", {});
+
+const UDATA = store.get("udata", { ratings: {}, notes: {}, overrides: {} });
+function usave() { store.set("udata", UDATA); }
+function urate(id, n) { if (n) UDATA.ratings[id] = n; else delete UDATA.ratings[id]; usave(); }
+function unote(id, t) { t = (t || "").trim(); if (t) UDATA.notes[id] = t; else delete UDATA.notes[id]; usave(); }
+function uoverride(id, fields) { UDATA.overrides[id] = Object.assign({}, UDATA.overrides[id] || {}, fields); usave(); }
+function applyOverride(obj) { if (!obj || !obj.id) return obj; const o = UDATA.overrides[obj.id]; return o ? Object.assign({}, obj, o) : obj; }
+function starsHtml(id) {
+  const cur = UDATA.ratings[id] || 0;
+  let h = '<div class="ustars" data-rid="' + esc(id) + '">';
+  for (let i = 1; i <= 5; i++) h += '<button type="button" data-s="' + i + '" class="' + (i <= cur ? "on" : "") + '">' + (i <= cur ? "⭐" : "☆") + "</button>";
+  return h + "</div>";
+}
+function noteHtml(id) {
+  return '<details class="userbar"><summary style="cursor:pointer;font-weight:700;color:#12418c">📝 דירוג והערה שלי</summary>' +
+    starsHtml(id) +
+    '<textarea class="unote" data-nid="' + esc(id) + '" placeholder="הערה אישית...">' + esc(UDATA.notes[id] || "") + "</textarea>" +
+    '<button type="button" class="btn l" data-nsave="' + esc(id) + '">שמור הערה</button></details>';
+}
+function bindUserMeta(root, rerender) {
+  $$(".ustars", root).forEach(function(g) {
+    $$("button", g).forEach(function(b) {
+      b.onclick = function(ev) {
+        ev.stopPropagation();
+        const id = g.dataset.rid, s = +b.dataset.s, cur = UDATA.ratings[id] || 0;
+        urate(id, cur === s ? 0 : s);
+        if (rerender) rerender(true);
+        else $$("button", g).forEach(function(x) {
+          const on = +x.dataset.s <= (UDATA.ratings[id] || 0);
+          x.className = on ? "on" : ""; x.textContent = on ? "⭐" : "☆";
+        });
+      };
+    });
+  });
+  $$("[data-nsave]", root).forEach(function(b) {
+    b.onclick = function() {
+      const ta = root.querySelector('.unote[data-nid="' + b.dataset.nsave + '"]');
+      unote(b.dataset.nsave, ta ? ta.value : "");
+      toast("ההערה נשמרה");
+    };
+  });
+}
+function editItemDialog(kind, item, onDone) {
+  const dlg = document.createElement("dialog");
+  dlg.style.cssText = "width:min(480px,96vw);max-height:90vh;overflow:auto";
+  const fields = [["he","שם בעברית", item.he||""],["en","שם באנגלית", item.en||""],["addr","כתובת", item.addr||""],["phone","טלפון", item.phone||""],["web","אתר", item.web||""]];
+  if (kind === "site") { fields.push(["hours","שעות", item.hours||""],["price","מחיר", item.price||""],["short","תיאור", item.short||""]); }
+  if (kind === "hotel") fields.push(["why","למה מומלץ", item.why||""]);
+  if (kind === "rest") { fields.push(["type","סוג אוכל", item.type||""],["desc","תיאור", item.desc||""]); }
+  let body = "<h3>✏️ עריכה</h3><div class='f' style='grid-template-columns:1fr'>";
+  fields.forEach(function(f) {
+    body += "<div><label>" + f[1] + "</label>";
+    if (["short","why","desc","hours"].indexOf(f[0]) >= 0)
+      body += '<textarea data-f="' + f[0] + '" rows="3" style="width:100%;padding:8px;border-radius:8px;border:1.5px solid #cfe0f5">' + esc(f[2]) + "</textarea>";
+    else
+      body += '<input data-f="' + f[0] + '" value="' + esc(f[2]) + '" style="width:100%;padding:8px;border-radius:8px;border:1.5px solid #cfe0f5">';
+    body += "</div>";
+  });
+  body += "</div><div class='acts' style='margin-top:12px'><button class='btn' id='eok'>שמור</button><button class='btn l' id='eno'>ביטול</button></div>";
+  dlg.innerHTML = body; document.body.appendChild(dlg); dlg.showModal();
+  dlg.querySelector("#eno").onclick = function() { dlg.close(); dlg.remove(); };
+  dlg.querySelector("#eok").onclick = function() {
+    const patch = {};
+    dlg.querySelectorAll("[data-f]").forEach(function(el) { patch[el.dataset.f] = el.value.trim(); });
+    if (item.id) uoverride(item.id, patch);
+    dlg.close(); dlg.remove(); toast("עודכן"); if (onDone) onDone();
+  };
+}
+function exportPersonalState() {
+  const data = { v: APP_VERSION, city: "Athens", exported: new Date().toISOString(), fav: [...FAV], hid: [...HID], custom: CUSTOM, plan: store.get("plan", null), savedPlans: store.get("savedPlans", []), udata: UDATA, filters: store.get("filters", {}), tab: store.get("tab", "map") };
+  const blob = new Blob([JSON.stringify(data, null, 2)], { type: "application/json" });
+  const a = document.createElement("a");
+  a.href = URL.createObjectURL(blob);
+  a.download = "athens-personal.json";
+  a.click();
+  setTimeout(function() { URL.revokeObjectURL(a.href); }, 2000);
+  toast("קובץ ההתאמה ירד — שלחו לחבר לייבוא");
+}
+function importPersonalState(file) {
+  const reader = new FileReader();
+  reader.onload = function() {
+    try {
+      const data = JSON.parse(reader.result);
+      if (data.fav) { FAV.clear(); data.fav.forEach(function(x){FAV.add(x);}); }
+      if (data.hid) { HID.clear(); data.hid.forEach(function(x){HID.add(x);}); }
+      saveFlags();
+      if (data.custom) { CUSTOM = data.custom; store.set("custom", CUSTOM); }
+      if (data.plan) store.set("plan", data.plan);
+      if (data.savedPlans) store.set("savedPlans", data.savedPlans);
+      if (data.udata) { Object.keys(data.udata).forEach(function(k){ UDATA[k] = data.udata[k]; }); usave(); }
+      if (data.filters) store.set("filters", data.filters);
+      if (data.tab) store.set("tab", data.tab);
+      toast("יובא בהצלחה"); setTimeout(function(){ location.reload(); }, 500);
+    } catch (e) { toast("קובץ לא תקין"); }
+  };
+  reader.readAsText(file);
+}
+function shareMyLocation() {
+  if (!navigator.geolocation) return toast("אין תמיכה במיקום");
+  toast("מאתר…");
+  navigator.geolocation.getCurrentPosition(function(p) {
+    const url = "https://www.google.com/maps?q=" + p.coords.latitude + "," + p.coords.longitude;
+    const text = "המיקום שלי באתונה: " + url;
+    if (navigator.share) navigator.share({ title: "המיקום שלי", text: text, url: url }).catch(function(){});
+    else { if (navigator.clipboard) navigator.clipboard.writeText(text); toast("קישור הועתק"); }
+  }, function(){ toast("לא ניתן לקבל מיקום"); });
+}
+let FX = store.get("fx", null);
+async function loadFx() {
+  try {
+    const r = await fetch("https://api.frankfurter.app/latest?from=EUR&to=ILS");
+    if (!r.ok) throw 0;
+    const j = await r.json();
+    FX = { rate: j.rates.ILS, at: Date.now(), date: j.date };
+    store.set("fx", FX); return true;
+  } catch (e) { return false; }
+}
+function fxHtml() {
+  if (!FX || !FX.rate) return "<p class='short'>שער אירו/שקל — לחצו ריענון.</p>";
+  return "<p><b>1 € = " + FX.rate.toFixed(3) + " ₪</b> · <b>1 ₪ ≈ " + (1/FX.rate).toFixed(3) + " €</b><br><small>" + (FX.date||"") + " · Frankfurter/ECB</small></p>";
+}
+
+
 function saveFlags() { store.set("fav", [...FAV]); store.set("hid", [...HID]); }
 function fget(tab, k, d) { return (F[tab] && F[tab][k] !== undefined) ? F[tab][k] : d; }
 function fset(tab, k, v) { F[tab] = F[tab] || {}; F[tab][k] = v; store.set("filters", F); }
@@ -776,7 +905,8 @@ function siteCard(s) {
    ${dl([["כתובת", esc(s.addr)], ["טלפון", s.phone ? `<a href="tel:${s.phone.replace(/\s/g, "")}">${esc(s.phone)}</a>` : "לא אומת — פרטים עדכניים בגוגל מפות"], ["אתר", lnk(s.web)], ["שעות", esc(s.hours)], ["מחיר", esc(s.price)], ["ימי חינם", esc(s.free)], ["איפה קונים", esc(s.buy)], ["הזמנה מראש", esc(s.book)], ["איך מגיעים", esc(s.how)]])}
    <div class="acts"><button class="btn l" data-wk="${esc(s.id)}">📖 עוד מויקיפדיה</button><button class="btn l" data-emb="${esc(s.id)}">🗺️ מפה מוטמעת</button></div><div class="wkbox"></div>
   </details>
-  <div class="acts">${flagBtns(s.id)}<a class="btn" target="_blank" rel="noopener" href="${gmapsDir(s.lat, s.lng)}">🧭 הגעה</a>${s.web ? `<a class="btn l" target="_blank" rel="noopener" href="${esc(s.web)}">🌐 אתר</a>` : ""}</div></div></article>`;
+  <div class="acts">${flagBtns(s.id)}<button class="btn l" data-edit-site="${esc(s.id)}">✏️</button><a class="btn" target="_blank" rel="noopener" href="${gmapsDir(s.lat, s.lng)}">🧭 הגעה</a>${s.web ? `<a class="btn l" target="_blank" rel="noopener" href="${esc(s.web)}">🌐 אתר</a>` : ""}</div>
+  ${noteHtml(s.id)}</div></article>`;
 }
 function customCard(c) {
   return `<article class="card" data-id="${esc(c.id)}" style="--cc:#ef6c00"><div class="ph"><span class="emo">📌</span></div><div class="body"><h3>${esc(c.he)}<small>המקום שלי</small></h3>${c.addr ? `<p class="short">${esc(c.addr)}</p>` : ""}${c.note ? `<p class="short">${esc(c.note)}</p>` : ""}<div class="acts"><button class="btn l" data-delc="${esc(c.id)}">🗑️ מחק</button><a class="btn" target="_blank" rel="noopener" href="${gmapsSearch(c.he + " " + (c.addr || "") + " Athens")}">🗺️ גוגל מפות</a></div></div></article>`;
@@ -787,13 +917,15 @@ function renderSites(el, soft) {
      <div class="chips">${toggleChip("sites", "freeOnly", "🆓 חינם בלבד")}${toggleChip("sites", "easy", "🦶 בלי הליכה מאומצת")}${toggleChip("sites", "kids", "👨‍👩‍👧 מתאים לילדים")}${toggleChip("sites", "noTrip", "🚫 בלי טיולי יום")}${flagsBar("sites")}<button class="chip" id="addplace">➕ הוסף מקום משלי</button></div></div>
      <div class="count" id="cnt"></div><div class="grid" id="lst"></div><p class="note">${CLOSED_NOTE} מחירים ושעות — אמתו באתר הרשמי לפני ההגעה. תמונות ותקצירים מויקיפדיה.</p>`;
   const q = fget("sites", "q", "").trim().toLowerCase(), cats = fget("sites", "cat", []);
-  let list = SITES.filter(s => (!q || (s.he + " " + s.en + " " + s.gr).toLowerCase().includes(q)) && (!cats.length || cats.includes(s.cat)) &&
+  let list = SITES.map(applyOverride).filter(s => (!q || (s.he + " " + s.en + " " + s.gr).toLowerCase().includes(q)) && (!cats.length || cats.includes(s.cat)) &&
     (!fget("sites", "freeOnly", false) || !s.paid) && (!fget("sites", "easy", false) || s.effort <= 2) && (!fget("sites", "kids", false) || s.kids) && (!fget("sites", "noTrip", false) || s.cat !== "daytrip") && passFlags("sites", s.id));
   const cs = CUSTOM.filter(c => !q || c.he.toLowerCase().includes(q));
   $("#cnt").textContent = (list.length + cs.length) + " מקומות";
   $("#lst").innerHTML = list.map(siteCard).join("") + cs.map(customCard).join("") || "<p>אין תוצאות — נסו להסיר סינון.</p>";
   $$("#lst .card").forEach(c => c.style.setProperty("--cc", c.style.getPropertyValue("--cc") || "#c79100"));
-  hydrate(el); bindFlags(el, renderSitesSoft); if (!soft) bindFilters(el, renderSitesSoft);
+  hydrate(el); bindFlags(el, renderSitesSoft); bindUserMeta(el, renderSitesSoft);
+  $$("[data-edit-site]", el).forEach(function(b){ b.onclick=function(){ var s=applyOverride(SITES.find(function(x){return x.id===b.dataset.editSite;})); if(s) editItemDialog("site", s, renderSitesSoft); }; });
+  if (!soft) bindFilters(el, renderSitesSoft);
   $$("[data-wk]", el).forEach(b => b.onclick = async () => { const s = SITES.find(x => x.id === b.dataset.wk), box = b.closest("details").querySelector(".wkbox"); box.innerHTML = '<p class="short">טוען…</p>'; const r = await heExtract(s.heq || s.he, s.he); box.innerHTML = r ? `<div class="wk"><b>${esc(r.title)}</b><br>${esc(r.text)}<br><a target="_blank" rel="noopener" href="https://he.wikipedia.org/wiki/${encodeURIComponent(r.title)}">לערך המלא בוויקיפדיה</a></div>` : '<p class="short">לא נמצא ערך מתאים או שאין חיבור לאינטרנט.</p>'; });
   $$("[data-emb]", el).forEach(b => b.onclick = () => { const s = SITES.find(x => x.id === b.dataset.emb), box = b.closest("details").querySelector(".wkbox"); box.innerHTML = `<iframe class="mapframe" loading="lazy" src="https://maps.google.com/maps?q=${s.lat},${s.lng}&z=16&output=embed"></iframe>`; });
   $$("[data-delc]", el).forEach(b => b.onclick = () => { if (confirm("למחוק את המקום?")) { CUSTOM = CUSTOM.filter(c => c.id !== b.dataset.delc); store.set("custom", CUSTOM); renderSitesSoft(); } });
@@ -814,15 +946,17 @@ function renderHotels(el, soft) {
     `<div class="fbar">${searchBox("hotels", "חיפוש מלון / אזור")}${chipRow("hotels", "stars", [["5", "5 כוכבים ★★★★★"], ["4", "4 כוכבים ★★★★"]])}${chipRow("hotels", "pr", [["lo", "עד €200"], ["mid", "€200–400"], ["hi", "מעל €400"]])}<div class="chips">${flagsBar("hotels")}</div></div><div class="count" id="cnt"></div><div class="grid" id="lst"></div><p class="note">${HOTEL_NOTE}</p>`;
   const q = fget("hotels", "q", "").trim().toLowerCase(), st = fget("hotels", "stars", []), pr = fget("hotels", "pr", []);
   const band = h => h.price[0] < 200 ? "lo" : h.price[0] < 400 ? "mid" : "hi";
-  const list = HOTELS.filter(h => (!q || (h.he + h.en + h.area).toLowerCase().includes(q)) && (!st.length || st.includes(String(h.stars))) && (!pr.length || pr.includes(band(h))) && passFlags("hotels", h.id));
+  const list = HOTELS.map(applyOverride).filter(h => (!q || (h.he + h.en + h.area).toLowerCase().includes(q)) && (!st.length || st.includes(String(h.stars))) && (!pr.length || pr.includes(band(h))) && passFlags("hotels", h.id));
   $("#cnt").textContent = list.length + " מלונות";
   $("#lst").innerHTML = list.map(h => `<article class="card${HID.has(h.id) ? " hid" : ""}">${ph(h.wiki, "🏨", h.wiki)}<div class="body"><h3>${esc(h.he)}<small>${esc(h.en)}</small></h3>
    <div class="row"><span class="tag o">${"★".repeat(h.stars)}</span><span class="tag p">${esc(h.area)}</span><span class="tag g">€${fmt(h.price[0])}–${fmt(h.price[1])} ללילה (משוער)</span></div>
    <p class="short"><b>למה מומלץ:</b> ${esc(h.why)}</p>
    ${dl([["כתובת", esc(h.addr)], ["טלפון", h.phone ? `<a href="tel:${h.phone.replace(/\s/g, "")}">${esc(h.phone)}</a>` : "פרטים באתר המלון"], ["אתר", lnk(h.web)], ["מטרו קרוב", esc(h.metro)]])}
-   <div class="acts">${flagBtns(h.id)}<a class="btn" target="_blank" rel="noopener" href="${gmapsDir(h.lat, h.lng)}">🧭 הגעה</a><a class="btn l" target="_blank" rel="noopener" href="${gmapsSearch(h.en + " Athens")}">🗺️ במפות</a></div></div></article>`).join("") || "<p>אין תוצאות.</p>";
+   <div class="acts">${flagBtns(h.id)}<button class="btn l" data-edit-hotel="${esc(h.id)}">✏️</button><a class="btn" target="_blank" rel="noopener" href="${gmapsDir(h.lat, h.lng)}">🧭 הגעה</a><a class="btn l" target="_blank" rel="noopener" href="${gmapsSearch(h.en + " Athens")}">🗺️ במפות</a></div>${noteHtml(h.id)}</div></article>`).join("") || "<p>אין תוצאות.</p>";
   $$("#lst .card").forEach(c => c.style.setProperty("--cc", "#7b3fb3"));
-  hydrate(el); bindFlags(el, () => renderHotels($("#view"), true)); if (!soft) bindFilters(el, () => renderHotels($("#view"), true));
+  hydrate(el); bindFlags(el, () => renderHotels($("#view"), true)); bindUserMeta(el, () => renderHotels($("#view"), true));
+  $$("[data-edit-hotel]", el).forEach(b => b.onclick = () => { const h = applyOverride(HOTELS.find(x => x.id === b.dataset.editHotel)); if (h) editItemDialog("hotel", h, () => renderHotels($("#view"), true)); });
+  if (!soft) bindFilters(el, () => renderHotels($("#view"), true));
 }
 
 /* ===== תחבורה ===== */
@@ -908,13 +1042,15 @@ function renderRest(el, soft) {
     `<div class="fbar">${searchBox("rest", "חיפוש מסעדה / סוג אוכל")}${chipRow("rest", "pr", [["lo", "עד €20"], ["mid", "€20–45"], ["hi", "מעל €45"]])}${chipRow("rest", "area", areas.map(a => [a, a]))}<div class="chips">${flagsBar("rest")}</div></div><div class="count" id="cnt"></div><div class="grid" id="lst"></div><p class="note">${REST_NOTE}</p>`;
   const q = fget("rest", "q", "").trim().toLowerCase(), pr = fget("rest", "pr", []), ar = fget("rest", "area", []);
   const band = r => r.price[1] <= 20 ? "lo" : r.price[1] <= 45 ? "mid" : "hi";
-  const list = RESTAURANTS.filter(r => (!q || (r.he + r.en + r.type + r.area).toLowerCase().includes(q)) && (!pr.length || pr.includes(band(r))) && (!ar.length || ar.includes(r.area)) && passFlags("rest", r.id));
+  const list = RESTAURANTS.map(applyOverride).filter(r => (!q || (r.he + r.en + r.type + r.area).toLowerCase().includes(q)) && (!pr.length || pr.includes(band(r))) && (!ar.length || ar.includes(r.area)) && passFlags("rest", r.id));
   $("#cnt").textContent = list.length + " מסעדות";
   $("#lst").innerHTML = list.map(r => `<article class="card${HID.has(r.id) ? " hid" : ""}" style="--cc:#c62828"><div class="ph" style="height:90px"><span class="emo">🍽️</span></div><div class="body"><h3>${esc(r.he)}<small>${esc(r.en)}</small></h3>
    <div class="row"><span class="tag r">${esc(r.type)}</span><span class="tag p">${esc(r.area)}</span><span class="tag g">€${fmt(r.price[0])}–${fmt(r.price[1])} לסועד (משוער)</span></div><p class="short">${esc(r.desc)}</p>
    ${dl([["כתובת", esc(r.addr)], ["טלפון", "בגוגל מפות — פרטים עדכניים"], ["אתר", lnk(r.web)]])}
-   <div class="acts">${flagBtns(r.id)}<a class="btn" target="_blank" rel="noopener" href="${gmapsDir(r.lat, r.lng)}">🧭 הגעה</a><a class="btn l" target="_blank" rel="noopener" href="${gmapsSearch(r.en + " " + r.addr + " Athens")}">📞 פתח בגוגל מפות</a></div></div></article>`).join("") || "<p>אין תוצאות.</p>";
-  bindFlags(el, () => renderRest($("#view"), true)); if (!soft) bindFilters(el, () => renderRest($("#view"), true));
+   <div class="acts">${flagBtns(r.id)}<button class="btn l" data-edit-rest="${esc(r.id)}">✏️</button><a class="btn" target="_blank" rel="noopener" href="${gmapsDir(r.lat, r.lng)}">🧭 הגעה</a><a class="btn l" target="_blank" rel="noopener" href="${gmapsSearch(r.en + " " + r.addr + " Athens")}">📞 פתח בגוגל מפות</a></div>${noteHtml(r.id)}</div></article>`).join("") || "<p>אין תוצאות.</p>";
+  bindFlags(el, () => renderRest($("#view"), true)); bindUserMeta(el, () => renderRest($("#view"), true));
+  $$("[data-edit-rest]", el).forEach(b => b.onclick = () => { const r = applyOverride(RESTAURANTS.find(x => x.id === b.dataset.editRest)); if (r) editItemDialog("rest", r, () => renderRest($("#view"), true)); });
+  if (!soft) bindFilters(el, () => renderRest($("#view"), true));
 }
 
 /* ===== אוכל ===== */
@@ -975,7 +1111,19 @@ function renderTips(el) {
         '</td><td><button class="speak" data-say="' + esc(p[1]) + '">🔊</button></td></tr>';
     }).join("") + "</tbody></table></div>";
   $$(".speak", el).forEach(function(b) { b.onclick = function() { speakGreek(b.dataset.say); }; });
+  var extra = document.createElement("div");
+  extra.innerHTML = '<div class="box" style="--cc:#546e7a"><h3>💱 שער אירו / שקל</h3>' + fxHtml() + "</div>" +
+    '<div class="box" style="--cc:#546e7a"><h3>👤 מדריך מותאם אישית</h3><p class="short">דירוגים, הערות, מסלולים והסתרות — ייצוא לחבר או ייבוא במכשיר אחר.</p><div class="acts">' +
+    '<button class="btn" id="expState" style="--cc:#546e7a">📤 ייצוא התאמה</button>' +
+    '<label class="btn l" style="cursor:pointer">📥 ייבוא<input type="file" id="impState" accept="application/json,.json" style="display:none"></label>' +
+    '<button class="btn l" id="shareLoc">📍 שתף מיקום</button></div></div>';
+  el.appendChild(extra);
+  var ex = $("#expState", el); if (ex) ex.onclick = exportPersonalState;
+  var im = $("#impState", el); if (im) im.onchange = function(){ if (im.files[0]) importPersonalState(im.files[0]); };
+  var sl = $("#shareLoc", el); if (sl) sl.onclick = shareMyLocation;
+  loadFx().then(function(){ var b = el.querySelector("h3"); });
 }
+
 
 
 /* ===== מסלולים ===== */
@@ -1230,9 +1378,13 @@ function printPlanPdf(days, f) {
   });
   const w = window.open("", "_blank");
   if (!w) { toast("אפשרו חלונות קופצים"); return; }
-  w.document.write("<!doctype html><html dir='rtl' lang='he'><head><meta charset='utf-8'><title>מסלול אתונה</title><style>body{font-family:Segoe UI,Arial,sans-serif;padding:24px;max-width:800px;margin:auto}@media print{button{display:none}}</style></head><body>" + body + "<p><button onclick='window.print()'>🖨️ הדפס / שמור PDF</button></p></body></html>");
+  const css = "body{font-family:Segoe UI,Arial,sans-serif;padding:24px;max-width:800px;margin:auto}";
+  w.document.open();
+  w.document.write("<!doctype html><html dir='rtl' lang='he'><head><meta charset='utf-8'><title>מסלול אתונה</title><style>" + css + "</style></head><body>");
+  w.document.write(body);
+  w.document.write("<p><button onclick='window.print()'>הדפס / שמור PDF</button></p></body></html>");
   w.document.close();
-  try { w.focus(); setTimeout(function(){ try{ w.print(); }catch(e){} }, 500); } catch(e) {}
+  setTimeout(function() { try { w.print(); } catch (e) {} }, 500);
 }
 function downloadPlanFile(days, f) {
   const blob = new Blob([buildPlanLines(days, f).join("\n")], { type: "text/plain;charset=utf-8" });
@@ -1510,7 +1662,7 @@ function show(id) {
 }
 async function refreshAll() {
   const b = $("#refresh"); b.classList.add("spin"); IMG = {}; store.set("img", {});
-  const ok = await loadWeather();
+  const ok = await loadWeather(); const okFx = await loadFx();
   try { const reg = await navigator.serviceWorker?.getRegistration(); reg && reg.update(); } catch (e) { }
   b.classList.remove("spin"); show(cur);
   toast(ok ? "עודכן ב-" + dmy(new Date()) + " " + new Date().toLocaleTimeString("he-IL", { hour: "2-digit", minute: "2-digit" }) + " — מזג אוויר ותמונות. מחירים ושעות: אמתו באתר הרשמי." : "אין חיבור לאינטרנט — מוצג המידע השמור.", 4200);
@@ -1542,27 +1694,39 @@ async function refreshAll() {
   } catch (e) {}
 })();
 function whatToDoToday() {
-  const d = new Date();
-  const day = d.getDay();
+  const d = new Date(); const day = d.getDay();
   let html = "<h3>💡 מה עושים היום — " + dmy(d) + "</h3>";
   if (WX && WX.current) {
     const o = wxo(WX.current.weather_code);
     html += "<p class='short'>" + o[0] + " <b>" + Math.round(WX.current.temperature_2m) + "°C</b> — " + o[1] + ".</p>";
   }
+  if (FX && FX.rate) html += "<p class='short'>💱 1€ = " + FX.rate.toFixed(2) + " ₪</p>";
+  const plan = store.get("plan", null);
+  if (plan && plan._savedDays && plan.start) {
+    const sd = parseDmy(plan.start);
+    if (sd) {
+      const diff = Math.round((new Date(d.getFullYear(),d.getMonth(),d.getDate()) - new Date(sd.getFullYear(),sd.getMonth(),sd.getDate())) / 864e5);
+      if (diff >= 0 && diff < plan._savedDays.length) {
+        const dayPlan = plan._savedDays[diff];
+        html += "<div class='note'><b>לפי המסלול שלכם (יום " + (diff+1) + "):</b> " + esc(dayPlan.t) + "</div>";
+        (dayPlan.slots||[]).filter(function(s){return s[1] && s[1] !== "—";}).forEach(function(s){
+          html += "<div class='slot'><b>" + esc(s[0]) + "</b><span>" + esc(s[1]) + "</span></div>";
+        });
+      }
+    }
+  }
   const recs = [];
-  if (day === 0) recs.push("יום ראשון: טקס חילופי המשמר בסינטגמה ב-11:00. שוק ורבקיוס סגור.");
-  recs.push("בוקר: אקרופוליס (הזמנת כרטיס מראש ב-tickets.hh.gr/en).");
-  recs.push("צהריים: מוזיאון האקרופוליס או ארוחה בפלאקה.");
-  recs.push("אחה״צ: ליקאבטוס / פילופאפוס לשקיעה.");
-  recs.push("ערב: טברנה בפסירי או פלאקה.");
-  html += "<ul style='line-height:1.8'>" + recs.map(function(r) { return "<li>" + esc(r) + "</li>"; }).join("") + "</ul>";
-  html += "<div class='acts'><button class='btn' id='goRoutes' style='--cc:#3949ab'>🧭 למסלולים</button><button class='btn l' id='goSites'>🏛️ לאתרים</button><button class='btn l' id='closeTd'>סגור</button></div>";
-  const dlg = document.createElement("dialog");
-  dlg.innerHTML = html;
-  document.body.appendChild(dlg); dlg.showModal();
-  $("#closeTd", dlg).onclick = function() { dlg.close(); dlg.remove(); };
-  const gr = $("#goRoutes", dlg); if (gr) gr.onclick = function() { dlg.close(); dlg.remove(); show("routes"); };
-  const gs = $("#goSites", dlg); if (gs) gs.onclick = function() { dlg.close(); dlg.remove(); show("sites"); };
+  if (day === 0) recs.push("ראשון: טקס חילופי משמר בסינטגמה 11:00. שוק ורבקיוס סגור.");
+  recs.push("בוקר: אקרופוליס (tickets.hh.gr/en מראש).");
+  recs.push("צהריים: מוזיאון האקרופוליס / פלאקה.");
+  recs.push("אחה״צ: ליקאבטוס או פילופאפוס.");
+  recs.push("ערב: טברנה בפסירי/פלאקה.");
+  html += "<ul style='line-height:1.8'>" + recs.map(function(r){return "<li>"+esc(r)+"</li>";}).join("") + "</ul>";
+  html += "<div class='acts'><button class='btn' id='goRoutes' style='--cc:#3949ab'>🧭 מסלולים</button><button class='btn l' id='goSites'>🏛️ אתרים</button><button class='btn l' id='closeTd'>סגור</button></div>";
+  const dlg = document.createElement("dialog"); dlg.innerHTML = html; document.body.appendChild(dlg); dlg.showModal();
+  $("#closeTd", dlg).onclick = function(){ dlg.close(); dlg.remove(); };
+  const gr = $("#goRoutes", dlg); if (gr) gr.onclick = function(){ dlg.close(); dlg.remove(); show("routes"); };
+  const gs = $("#goSites", dlg); if (gs) gs.onclick = function(){ dlg.close(); dlg.remove(); show("sites"); };
 }
 function init() {
   $("#tabs").innerHTML = TABS.map(function(t) { return '<button class="tab" data-t="' + t.id + '" style="--tc:' + t.c + '"><span>' + t.i + '</span>' + t.t + '</button>'; }).join("");
